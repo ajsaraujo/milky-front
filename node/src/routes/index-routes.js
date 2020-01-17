@@ -1,6 +1,7 @@
 const express = require('express'); 
 const router = express.Router(); 
 
+// Next não é necessário a não ser que precise retornar erro
 router.get('/', (req, res, next) => {
     res.status(200).send({
 	title: 'MentionsAPI',

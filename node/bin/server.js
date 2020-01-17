@@ -43,7 +43,11 @@ function onListening() {
 	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port' + addr.port; 
 	debug('Listening on' + bind); 
 }
-
+/*
+* Hoje aprendi uma coisa nova!
+* A diferença de criar o servidor assim pra criar
+* usando só o listen do express é que assim tem https.
+*/
 const server = http.createServer(app);
 server.listen(port); 
 server.on('error', onError);
