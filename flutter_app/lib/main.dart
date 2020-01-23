@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/login.dart'; 
+import 'package:flutter_app/screens/dashboard.dart'; 
 
 void main() => runApp(MyApp());
 
@@ -11,8 +12,9 @@ class MyApp extends StatelessWidget {
       title: 'Milky App',
       theme: ThemeData(
         primarySwatch: Colors.purple,
+        primaryColor: Colors.purple,
       ),
-      home: LoginScreen(),
+      home: Dashboard(),
     );
   }
 }
