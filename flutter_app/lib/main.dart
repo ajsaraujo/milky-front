@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/login.dart'; 
 import 'package:flutter_app/screens/dashboard.dart'; 
+import 'package:flutter_app/screens/listGalaxy.dart';
 
 void main() => runApp(MyApp());
 
