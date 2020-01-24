@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
         primaryColor: Colors.purple,
       ),
-      home: Dashboard(),
+      home: LoginScreen(),
     );
   }
 }
