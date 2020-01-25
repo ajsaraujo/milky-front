@@ -2,31 +2,23 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import 'package:flutter_app/screens/dashboard.dart';
 
-/*
-  TO DO:
-    -~ Ter certeza que o email não é nulo ou inválido
-    -~ Ter certeza que a senha não é nula ou inválida
-    -~ Mostrar ao usuário caso ele não consiga conexão com o servidor
-    -~ Dar um cookie/token caso o usuário consiga fazer login
-*/
+//  TO DO:
+//    -~ Ter certeza que o email não é nulo ou inválido
+//    -~ Ter certeza que a senha não é nula ou inválida
+//    -~ Mostrar ao usuário caso ele não consiga conexão com o servidor
+//    -~ Dar um cookie/token caso o usuário consiga fazer login
 
-
-
-/*   O retorno do ip do servidor foi feito como função para
-* facilitar a troca dos ips durante o nosso desenvolvimento.
-*   Para trocar o ip para o da sua máquina basta setar o 'true'
-* pra false e colocar o seu ip no retorno do else.
-* --Nelson
-*/
+// Para fins de modularização, ao passar um endereço
+// para um verbo http, sempre utilize a função _hostname()
+// ao invés de passar o endereço diretamente. 
 String _hostname(){
-  if(true){
+  // Sette a condição como True para utilizar o endereço de
+  // Nelson ou False para utilizar o endereço de Allan. 
+  if (false) 
     return 'http://192.168.1.5:3000';
-  } else {
-    return 'http://ip.do.seu.computador:3000';
-  }
+  return 'http://192.168.1.12:3000';
 }
 
 class LoginScreen extends StatefulWidget {
@@ -37,7 +29,7 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-// Classe que armazena as informações de login
+// Classe que armazena as informações de login.
 class _LoginData {
   String email = '';
   String password = '';
@@ -45,17 +37,18 @@ class _LoginData {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-  // Chave do formulário
+  
+  // Chave do formulário.
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  _LoginData _data = new _LoginData();
-  // Cabeçalho das requisições http
+  _LoginData _data = _LoginData();
+  
+  // Cabeçalho das requisições http.
   static const Map<String, String> headers = {"Content-type": "application/json"};
 
-  // Função que comunica com o backend buscando autenticação do servidor
+  // Função que comunica com o backend buscando autenticação do servidor.
   void _auth() async {
     String json = '{"email": "${_data.email}", "password": "${_data.password}"}';
     var data = await http.post('${_hostname()}/auth',headers: headers, body: json);
-    
     if(data.statusCode == 200){
       Navigator.pushReplacement(context,
        new MaterialPageRoute(
@@ -73,9 +66,10 @@ class _LoginScreenState extends State<LoginScreen> {
         hintText: "Email",
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
-      //Função que será chamada ao salvar o formulário
+      // Função que será chamada ao salvar o formulário.
       onSaved: (String value) => {this._data.email = value},
     );
+    
     final passwordField = TextFormField(
       obscureText: true,
       style: style,
@@ -84,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
         hintText: "Password",
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
-      //Função que será chamada ao salvar o formulário
+      //Função que será chamada ao salvar o formulário.
       onSaved: (String value) => {this._data.password = value},
     );
     final loginButton = Material(

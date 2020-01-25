@@ -32,6 +32,7 @@ class GalaxyListState extends State<GalaxyList> {
       galaxies.add(galaxy);
       print('Galaxy added');
     }
+
     print(galaxies.length);
     return galaxies;
   }
@@ -55,8 +56,8 @@ class GalaxyListState extends State<GalaxyList> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    title: Text(snapshot.data[index].name), 
-                    subtitle: Text(snapshot.data[index].distanceToEarth.toString()));
+                    title: Text(snapshot.data[index].name + ' #' + snapshot.data[index].id.toString()), 
+                    subtitle: Text('a ' + snapshot.data[index].distanceToEarth.toString() + ' anos luz da terra'));
                 },
               );
             }
