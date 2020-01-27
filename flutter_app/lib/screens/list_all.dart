@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/custom_app_bar.dart'; 
 import 'package:http/http.dart' as http;
 import 'package:flutter_app/classes/entity.dart';
 import 'package:flutter_app/control/string_tuple.dart';  
@@ -9,19 +10,16 @@ import 'dart:convert';
 class ListAll extends StatefulWidget {
   StringTuple _myStringTuple;
 
+  StringTuple get myStringTuple => this._myStringTuple; 
+
   ListAll(this._myStringTuple); 
 
   @override
-  _ListAllState createState() => _ListAllState(_myStringTuple);
+  _ListAllState createState() => _ListAllState();
 }
 
 class _ListAllState extends State<ListAll> {
-  StringTuple _myStringTuple; 
 
-  // Codamos o mesmo construtor duas vezes.
-  // TODO: Procurar saber como faz para deixar só um.  
-  _ListAllState(this._myStringTuple); 
-  
   // Pega todas as instâncias de entidades do tipo entityType no backend. 
   Future<List<Entity>> _getData() async {
     // TODO: Mudar o request abaixo para uma rota gerada dinamicamente. 
@@ -38,10 +36,14 @@ class _ListAllState extends State<ListAll> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar.makeAppBar(widget.myStringTuple.viewName, context),
+      floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text(_myStringTuple.viewName),
-        actions: <Widget>[Icon(Icons.exit_to_app)],
+        child: Icon(Icons.add, color: Theme.of(context).accentColor),
+        onPressed: () => Navigator.of(context).pushNamed(
+          '/new_entity',
+          arguments: widget._myStringTuple
+        ),
       ),
       body: Container(
         child: FutureBuilder(

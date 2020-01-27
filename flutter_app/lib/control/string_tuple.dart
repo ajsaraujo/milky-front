@@ -5,30 +5,36 @@ class StringTuple {
   String _controlName; 
 
   // A string que será mostrada no layout da tela.
-  // Ex: 'Galáxias', 'Estrelas', 'Planetas', 'Satélites'... 
+  // Ex: 'Galáxia', 'Estrela', 'Planeta', 'Satélite'... 
   String _viewName; 
 
-  StringTuple(this._controlName, this._viewName); 
+  // Artigo que indica o gênero da palavra. 
+  // Ex: 'a', 'o'
+  String _article;
+
+
+  StringTuple(this._controlName, this._viewName, this._article); 
 
   String get controlName => this._controlName; 
-  String get viewName => this._viewName; 
+  String get viewName => this._viewName;
+  String get article => this._article; 
 
   static StringTuple makeStringTupleFor(String entityType) {
     switch (entityType) {
       case 'colored_star':
-        return StringTuple('colored_star', 'Estrelas'); 
+        return StringTuple('colored_star', 'Estrela', 'a'); 
       case 'galaxy':
-        return StringTuple('galaxy', 'Galáxias'); 
+        return StringTuple('galaxy', 'Galáxia', 'a'); 
       case 'planet':
-        return StringTuple('planet', 'Planetas'); 
+        return StringTuple('planet', 'Planeta', 'o'); 
       case 'satellite':
-        return StringTuple('satellite', 'Satélites'); 
+        return StringTuple('satellite', 'Satélite', 'o'); 
       case 'star':
-        return StringTuple('star', 'Estrelas'); 
+        return StringTuple('star', 'Estrela', 'a'); 
       case 'system':
-        return StringTuple('system', 'Sistemas'); 
+        return StringTuple('system', 'Sistema', 'o'); 
       default:
-        return StringTuple('error', 'Erros'); 
+        return StringTuple('error', 'Erros', 'o'); 
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/custom_app_bar.dart';
 import 'package:flutter_app/screens/listGalaxy.dart';
 import 'package:flutter_app/control/string_tuple.dart';
 
@@ -6,18 +7,7 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Text(
-          'Selecione uma entidade',
-          style: TextStyle(color: Theme.of(context).accentColor),
-        ),
-        centerTitle: true,
-        actions: <Widget>[
-          Icon(Icons.exit_to_app), /*Icon(Icons.settings)*/
-        ],
-        elevation: .1,
-      ),
+      appBar: CustomAppBar.makeAppBar('Selecione uma entidade', context),
       body: Container(
           padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
           child: GridView.count(

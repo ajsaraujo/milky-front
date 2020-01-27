@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _validateEmail(String email) {
     if (email.isEmpty)
       return 'Digite seu e-mail'; 
-    if (!email.contains('@') || !email.contains('@'))
+    if (!email.contains('@') || !email.contains('.'))
       return 'Insira um e-mail válido'; 
     return null;
   }
@@ -90,11 +90,12 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       //Função que será chamada ao salvar o formulário.
       onSaved: (String value) => {this._data.password = value},
+      validator: _validatePassword,
     );
     final loginButton = Material(
         elevation: 5.0,
         borderRadius: BorderRadius.circular(30.0),
-        color: Colors.purple,
+        color: Theme.of(context).primaryColor,
         child: MaterialButton(
             minWidth: MediaQuery.of(context).size.width,
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),

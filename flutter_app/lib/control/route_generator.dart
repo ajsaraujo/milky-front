@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/login.dart'; 
 import 'package:flutter_app/screens/list_all.dart'; 
+import 'package:flutter_app/screens/new_entity.dart'; 
 import 'package:flutter_app/control/string_tuple.dart'; 
 
 // Um RouteGenerator permite que façamos o roteamento passando
@@ -16,13 +17,14 @@ class RouteGenerator {
       case '/': 
         return MaterialPageRoute(builder: (_) => LoginScreen()); 
       case '/list_all':
-        // O programa espera que args contenha duas Strings, uma contendo
-        // o nome da entidade no formato entityType e outra no formato que será
-        // exibido para o usuário. 
-        // Ex: ['galaxy', 'Galáxias'], ['planet', 'Planetas']... 
         if (args is StringTuple)
           return MaterialPageRoute(
             builder: (_) => ListAll(args));
+        return _errorRoute(); 
+      case '/new_entity':
+        if (args is StringTuple)
+          return MaterialPageRoute(
+            builder: (_) => NewEntity(args));
         return _errorRoute(); 
       default:
         return _errorRoute();
