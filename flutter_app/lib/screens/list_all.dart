@@ -1,31 +1,26 @@
 import 'package:flutter/material.dart'; 
 import 'package:http/http.dart' as http;
-import 'package:flutter_app/classes/entity.dart'; 
+import 'package:flutter_app/classes/entity.dart';
+import 'package:flutter_app/control/string_tuple.dart';  
 import 'dart:convert';
 
 // ListAll listará todas as instâncias de uma determinada
 // entidade. Ex: todas as estrelas, todas as galáxias, etc.
 class ListAll extends StatefulWidget {
-  // O tipo de entidade que será listado. Ex: 'star', 'galaxy', 'planet'... 
-  String _entityType;
-  // O nome da entidade que será exibido para o usuário. Ex: 'Estrela', 'Galáxia'... 
-  String _entityLabel; 
+  StringTuple _myStringTuple;
 
-  ListAll(this._entityType, this._entityLabel); 
+  ListAll(this._myStringTuple); 
 
   @override
-  _ListAllState createState() => _ListAllState(_entityType, _entityLabel);
+  _ListAllState createState() => _ListAllState(_myStringTuple);
 }
 
 class _ListAllState extends State<ListAll> {
-  // O tipo de entidade que será listado. Ex: 'star', 'galaxy', 'planet'... 
-  String _entityType;
-  // O nome da entidade que será exibido para o usuário. Ex: 'Estrela', 'Galáxia'... 
-  String _entityLabel;
+  StringTuple _myStringTuple; 
 
   // Codamos o mesmo construtor duas vezes.
   // TODO: Procurar saber como faz para deixar só um.  
-  _ListAllState(this._entityType, this._entityLabel); 
+  _ListAllState(this._myStringTuple); 
   
   // Pega todas as instâncias de entidades do tipo entityType no backend. 
   Future<List<Entity>> _getData() async {
@@ -45,7 +40,7 @@ class _ListAllState extends State<ListAll> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text(_entityLabel),
+        title: Text(_myStringTuple.viewName),
         actions: <Widget>[Icon(Icons.exit_to_app)],
       ),
       body: Container(

@@ -3,6 +3,7 @@ import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/dashboard.dart'; 
 import 'package:flutter_app/screens/listGalaxy.dart';
 import 'package:flutter_app/screens/list_all.dart';
+import 'package:flutter_app/control/route_generator.dart'; 
 
 void main() => runApp(MyApp());
 
@@ -16,7 +17,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
         accentColor: Colors.white,
       ),
-      home: Dashboard(),
+      // Agora que estamos administrando o roteamento com a classe
+      // RouteGenerator, initialRoute cumpre o papel do 'home'. 
+      initialRoute: '/',
+      onGenerateRoute: RouteGenerator.generateRoute
     );
   }
 }

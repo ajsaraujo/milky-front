@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/listGalaxy.dart';
+import 'package:flutter_app/control/string_tuple.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -12,7 +13,9 @@ class Dashboard extends StatelessWidget {
           style: TextStyle(color: Theme.of(context).accentColor),
         ),
         centerTitle: true,
-        actions: <Widget>[Icon(Icons.exit_to_app),/*Icon(Icons.settings)*/],
+        actions: <Widget>[
+          Icon(Icons.exit_to_app), /*Icon(Icons.settings)*/
+        ],
         elevation: .1,
       ),
       body: Container(
@@ -21,40 +24,33 @@ class Dashboard extends StatelessWidget {
             crossAxisCount: 2,
             padding: EdgeInsets.all(3.0),
             children: <Widget>[
-              makeDashboardCard(Icons.person, 'Planeta', context),
-              makeDashboardCard(Icons.person, 'Sistema', context),
-              makeDashboardCard(Icons.person, 'Galáxia', context),
-              makeDashboardCard(Icons.person, 'Satélite', context),
-              makeDashboardCard(Icons.person, 'Estrela', context),
+              makeDashboardCard(context, Icons.person,
+                  StringTuple.makeStringTupleFor('planet')),
+              makeDashboardCard(context, Icons.person,
+                  StringTuple.makeStringTupleFor('system')),
+              makeDashboardCard(context, Icons.person,
+                  StringTuple.makeStringTupleFor('galaxy')),
+              makeDashboardCard(context, Icons.person,
+                  StringTuple.makeStringTupleFor('satellite')),
+              makeDashboardCard(context, Icons.person,
+                  StringTuple.makeStringTupleFor('star')),
             ],
-          ))
-      //Teste do grid
-      /*body: Center(
-          child: GridView.count(
-        crossAxisCount: 2,
-        padding: EdgeInsets.only(top: 50.0),
-        children: <Widget>[
-          selecEntidade(Icon(Icons.star), 'Planeta'),
-          selecEntidade(Icon(Icons.satellite), 'Satélite'),
-          selecEntidade(Icon(Icons.star_border), 'Estrela'),
-          selecEntidade(Icon(Icons.system_update), 'Sistema'),
-          selecEntidade(Icon(Icons.gavel), 'Galáxia'),
-        ],
-      ))*/
-      ,
+          )),
     );
   }
 
-  Widget makeDashboardCard(IconData icon, String title, BuildContext context) {
+  Widget makeDashboardCard(
+      BuildContext context, IconData icon, StringTuple myStringTuple) {
     return Card(
       elevation: 1.0,
       margin: EdgeInsets.all(8.0),
       child: Container(
-        decoration: BoxDecoration(color: Colors.white), // Podemos alterar dps
+        decoration:
+            BoxDecoration(color: Colors.white), // Pode ser alterado depois.
         child: InkWell(
           splashColor: Colors.deepPurple,
-          onTap: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => GalaxyList())),
+          onTap: () => Navigator.of(context)
+              .pushNamed('/list_all', arguments: myStringTuple),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
@@ -64,14 +60,14 @@ class Dashboard extends StatelessWidget {
               Center(
                   child: Icon(icon,
                       size: 40.0,
-                      color: Colors.deepPurple // pode ser alterado mais tarde
+                      color: Colors.deepPurple // Pode ser alterado depois.
                       )),
               SizedBox(height: 20.0),
               Center(
                 child: Column(
                   children: <Widget>[
                     Text(
-                      title,
+                      myStringTuple.viewName,
                       style: TextStyle(
                           fontSize: 18.0, fontWeight: FontWeight.w700),
                     ),
@@ -83,28 +79,5 @@ class Dashboard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget selecEntidade(Icon icon, String nome) {
-    return Container(
-        child: InkWell(
-      splashColor: Colors.blueGrey,
-      onTap: () {},
-      child: Card(
-        elevation: 5.0,
-
-        //padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            icon,
-            Text(
-              nome,
-              style: TextStyle(color: Colors.purple, fontSize: 20.0),
-            ),
-          ],
-        ),
-      ),
-    ));
   }
 }

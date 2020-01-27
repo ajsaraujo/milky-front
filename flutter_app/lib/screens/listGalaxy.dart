@@ -38,6 +38,8 @@ class GalaxyListState extends State<GalaxyList> {
     return galaxies;
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
