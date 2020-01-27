@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_app/classes/galaxy.dart';
+import 'package:flutter_app/screens/galaxyDetail.dart';
 
 /*class Galaxy {
   String name;
@@ -56,8 +57,10 @@ class GalaxyListState extends State<GalaxyList> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    title: Text(snapshot.data[index].name + ' #' + snapshot.data[index].id.toString()), 
-                    subtitle: Text('a ' + snapshot.data[index].distanceToEarth.toString() + ' anos luz da terra'));
+                    title: Text(snapshot.data[index].name), 
+                    subtitle: Text('A ' + snapshot.data[index].distanceToEarth.toString() + ' anos luz da terra'),
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => GalaxyDetailPage(snapshot.data[index]))),
+                    );
                 },
               );
             }

@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
         accentColor: Colors.white,
       ),
-      home: ListAll('galaxy', 'Galáxias'),
+      home: Dashboard(),
     );
   }
 }

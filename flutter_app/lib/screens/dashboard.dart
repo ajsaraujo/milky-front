@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/listGalaxy.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -11,8 +12,7 @@ class Dashboard extends StatelessWidget {
           style: TextStyle(color: Theme.of(context).accentColor),
         ),
         centerTitle: true,
-        leading: Icon(Icons.exit_to_app),
-        actions: <Widget>[Icon(Icons.settings)],
+        actions: <Widget>[Icon(Icons.exit_to_app),/*Icon(Icons.settings)*/],
         elevation: .1,
       ),
       body: Container(
@@ -21,11 +21,11 @@ class Dashboard extends StatelessWidget {
             crossAxisCount: 2,
             padding: EdgeInsets.all(3.0),
             children: <Widget>[
-              makeDashboardCard(Icons.person, 'Planeta'),
-              makeDashboardCard(Icons.person, 'Sistema'),
-              makeDashboardCard(Icons.person, 'Galáxia'),
-              makeDashboardCard(Icons.person, 'Satélite'),
-              makeDashboardCard(Icons.person, 'Estrela'),
+              makeDashboardCard(Icons.person, 'Planeta', context),
+              makeDashboardCard(Icons.person, 'Sistema', context),
+              makeDashboardCard(Icons.person, 'Galáxia', context),
+              makeDashboardCard(Icons.person, 'Satélite', context),
+              makeDashboardCard(Icons.person, 'Estrela', context),
             ],
           ))
       //Teste do grid
@@ -45,7 +45,7 @@ class Dashboard extends StatelessWidget {
     );
   }
 
-  Widget makeDashboardCard(IconData icon, String title) {
+  Widget makeDashboardCard(IconData icon, String title, BuildContext context) {
     return Card(
       elevation: 1.0,
       margin: EdgeInsets.all(8.0),
@@ -53,7 +53,8 @@ class Dashboard extends StatelessWidget {
         decoration: BoxDecoration(color: Colors.white), // Podemos alterar dps
         child: InkWell(
           splashColor: Colors.deepPurple,
-          onTap: () {},
+          onTap: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => GalaxyList())),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
@@ -91,18 +92,17 @@ class Dashboard extends StatelessWidget {
       onTap: () {},
       child: Card(
         elevation: 5.0,
-        child: Padding(
-          //padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              icon,
-              Text(
-                nome,
-                style: TextStyle(color: Colors.purple, fontSize: 20.0),
-              ),
-            ],
-          ),
+
+        //padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            icon,
+            Text(
+              nome,
+              style: TextStyle(color: Colors.purple, fontSize: 20.0),
+            ),
+          ],
         ),
       ),
     ));
