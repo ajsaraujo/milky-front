@@ -1,5 +1,6 @@
 const glob = require('glob');
-const Router = require('express').Router();
+const express = require('express');
+const Router = require('express').Router({mergeParams: true});
 
 
 /*
@@ -25,15 +26,13 @@ const Router = require('express').Router();
 * em um só (no rootRouter) e exportando apenas o rootRouter com os
 * seus filhos
 */
-
+//.reduce((rootRouter, router) => rootRouter.use(router), Router({ mergeParams: true }));
 /*
-*   As rotas geradas por esse router equivalem ao caminho pra chegar
-* nos routers filhos em seguida da rota interna deles
-* Ex.: /api/users/id:, onde api é a pasta, users o arquivo e id uma rota
-*                       interna
+*   Esse agregador vai juntar os roteadores da pasta api em um unico roteador.
+* As rotas dos roteadores filhos devem seguir o formato /rota/
 */
 module.exports = () => glob
     .sync('**/*.js', { cwd: `${__dirname}/` })
     .map(filename => require(`./${filename}`))
-    .filter(router => Object.getPrototypeOf(router) == Router)
-    .reduce((rootRouter, router) => rootRouter.use(router), Router({ mergeParams: true }));
+    .filter(router => Object.getPrototypeOf(router) == express.Router)
+    .reduce((rootRouter, router) => rootRouter.use(router), Router);

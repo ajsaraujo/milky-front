@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
   // Função que comunica com o backend buscando autenticação do servidor.
   void _auth() async {
     String json = '{"email": "${_data.email}", "password": "${_data.password}"}';
-    var data = await http.post('${_hostname()}/auth',headers: headers, body: json);
+    var data = await http.post('${_hostname()}/api/auth',headers: headers, body: json);
     if(data.statusCode == 200){
       Navigator.pushReplacement(context,
        new MaterialPageRoute(
