@@ -1,6 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('./queries');
+//const db = require('./queries');
+//const router = require('./routes/createRouter.js')();
+const userRouter = require('./routes/api/users');
+const authRouter = require('./routes/api/auth');
 const app = express();
 const port = 3000;
 
@@ -14,24 +17,13 @@ app.get('/', (req, res) => {
     //res.send('Hello Wolrd!');
 });
 
-app.get('/users', db.getUsers);
+app.use('/api/users', userRouter);
+app.use('/api/auth', authRouter);
 
-app.get('/users/:id', db.getUserById);
-
-app.post('/users', db.createUser);
-
-app.put('/users/:id', db.updateUser);
-
-app.delete('/users/:id', db.deleteUser);
-
-app.post('/auth', db.authUser);
+// Futura automação que vai juntar todos os routers em um
+// ver em createRouter.js
+//app.use('/api', router);
 
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server running on port ${port}.`);
-    //console.log(app.address());
 });
-
-//const server = http.createServer(app);
-//server.listen(port, '0.0.0.0');
-
-//console.log(server.address());
