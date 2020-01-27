@@ -3,23 +3,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_app/screens/dashboard.dart';
+import 'package:flutter_app/control/connection.dart'; 
 
 //  TO DO:
 //    -~ Ter certeza que o email não é nulo ou inválido
 //    -~ Ter certeza que a senha não é nula ou inválida
 //    -~ Mostrar ao usuário caso ele não consiga conexão com o servidor
 //    -~ Dar um cookie/token caso o usuário consiga fazer login
-
-// Para fins de modularização, ao passar um endereço
-// para um verbo http, sempre utilize a função _hostname()
-// ao invés de passar o endereço diretamente. 
-String _hostname(){
-  // Sette a condição como True para utilizar o endereço de
-  // Nelson ou False para utilizar o endereço de Allan. 
-  if (false) 
-    return 'http://192.168.1.5:3000';
-  return 'http://192.168.1.12:3000';
-}
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key, this.title}) : super(key: key);
@@ -47,13 +37,34 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // Função que comunica com o backend buscando autenticação do servidor.
   void _auth() async {
+    //print('tentando autenticar'); 
     String json = '{"email": "${_data.email}", "password": "${_data.password}"}';
-    var data = await http.post('${_hostname()}/auth',headers: headers, body: json);
+    var data = await http.post('${Connection.hostname()}/api/auth',headers: headers, body: json);
+    //print('a resposta chegou'); 
     if(data.statusCode == 200){
       Navigator.pushReplacement(context,
        new MaterialPageRoute(
            builder: (context) => new Dashboard()));
     }
+    //print('fim');
+  }
+
+  // Essa verificação ainda pode melhorar. Por exemplo,
+  // ela considera '@.' um e-mail válido.
+  String _validateEmail(String email) {
+    if (email.isEmpty)
+      return 'Digite seu e-mail'; 
+    if (!email.contains('@') || !email.contains('@'))
+      return 'Insira um e-mail válido'; 
+    return null;
+  }
+
+  String _validatePassword(String password) {
+    // A validação pode verificar se o usuário utilizou
+    // algum caractere proibido. 
+    if (password.isEmpty)
+      return 'Insira sua senha';
+    return null; 
   }
 
   @override
@@ -66,8 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
         hintText: "Email",
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
-      // Função que será chamada ao salvar o formulário.
       onSaved: (String value) => {this._data.email = value},
+      validator: _validateEmail
     );
     
     final passwordField = TextFormField(
@@ -90,7 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {
               _formKey.currentState.save();
-              _auth();
+              if (_formKey.currentState.validate())
+                _auth();
               },
             child: Text("Login",
                 textAlign: TextAlign.center,
