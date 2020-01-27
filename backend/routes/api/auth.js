@@ -25,6 +25,6 @@ const authUser = (req, res) => {
 }
 
 
-router.post('/', (req, res) => authUser(req, res));
+router.post('/auth/', (req, res) => authUser(req, res));
 
 module.exports = router;

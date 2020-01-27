@@ -40,7 +40,6 @@ class _LoginScreenState extends State<LoginScreen> {
     //print('tentando autenticar'); 
     String json = '{"email": "${_data.email}", "password": "${_data.password}"}';
     var data = await http.post('${Connection.hostname()}/api/auth',headers: headers, body: json);
-    //print('a resposta chegou'); 
     if(data.statusCode == 200){
       Navigator.pushReplacement(context,
        new MaterialPageRoute(
