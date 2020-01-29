@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/custom_app_bar.dart'; 
 import 'package:http/http.dart' as http;
 import 'package:flutter_app/classes/entity.dart';
-import 'package:flutter_app/control/string_tuple.dart';  
+import 'package:flutter_app/control/string_tuple.dart';
+import 'package:flutter_app/control/connection.dart';   
 import 'dart:convert';
 
 // ListAll listará todas as instâncias de uma determinada
@@ -22,14 +23,20 @@ class _ListAllState extends State<ListAll> {
 
   // Pega todas as instâncias de entidades do tipo entityType no backend. 
   Future<List<Entity>> _getData() async {
-    // TODO: Mudar o request abaixo para uma rota gerada dinamicamente. 
-    var data = await http.get('http://www.json-generator.com/api/json/get/caBlfnyVcO?indent=2');
+    //var data = await http.get('http://www.json-generator.com/api/json/get/caBlfnyVcO?indent=2');
+    print('Tentando conectar em ${Connection.hostname()}/api/all_entities/${widget._myStringTuple.controlName}');
+    var data = await http.get('${Connection.hostname()}/api/all_entities/${widget._myStringTuple.controlName}'); 
+    print('A resposta chegou!');
+    print('Tentando decodificar o corpo...');
+    print('${data.body}');
     var jsonData = json.decode(data.body);
-
+    print('Decodifiquei o corpo...'); 
     List<Entity> myList = []; 
+    print('Adicionando itens à lista...');
     for (var jsonEntity in jsonData)
-      myList.add(Entity.parseJson(jsonEntity)); 
-    
+      myList.add(Entity.parseJson(jsonEntity, widget._myStringTuple)); 
+    print('${jsonData.toString()}');
+    print('Comprimento: ${myList.length}'); 
     return myList; 
   }
 

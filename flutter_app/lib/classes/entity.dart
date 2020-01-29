@@ -5,6 +5,7 @@ import 'package:flutter_app/classes/satellite.dart';
 import 'package:flutter_app/classes/system.dart';
 import 'package:flutter_app/classes/star.dart';
 import 'package:flutter_app/classes/colored_star.dart'; 
+import 'package:flutter_app/control/string_tuple.dart'; 
 
 class Entity {
   String _name; 
@@ -16,12 +17,14 @@ class Entity {
 
   int get id => this._id;
 
-  static Entity parseJson(dynamic json) { 
-    switch (json['entityType']) {
+  static Entity parseJson(dynamic json, StringTuple st) { 
+    print('Entrei no switch! ${st.controlName}'); 
+    switch (st.controlName) {
       case 'galaxy':
         return Galaxy(json['name'], json['id'], json['numOfSystems'], 
                       json['distanceToEarth']);
       case 'planet':
+        print('estou tentando fazer um planeta...'); 
         return Planet(json['name'], json['id'], json['size'], json['mass'], 
                       json['gravity'], json['composition']);
       case 'satellite':

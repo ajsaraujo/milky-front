@@ -4,7 +4,7 @@ class Connection {
   // Nelson ou False para utilizar o endereço de Allan. 
   if (false) 
     return 'http://192.168.1.5:3000';
-  return 'http://192.168.43.163:3000';
+  return 'http://192.168.1.12:3000';
 
   // Endereços:
   // Casa de Nelson: 'http://192.168.1.5:3000';
