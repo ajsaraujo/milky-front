@@ -1,9 +1,9 @@
 class Connection {
   static String hostname() {
   // Sette a condição como True para utilizar o endereço de
-  // Nelson ou False para utilizar o endereço de Allan. 
-  if (false) 
-    return 'http://192.168.1.5:3000';
+  // True para o servidor de deploy, false para tese local
+  if (true)
+    return 'https://milkyandbeyond.herokuapp.com/';
   return 'http://192.168.1.12:3000';
 
   // Endereços:

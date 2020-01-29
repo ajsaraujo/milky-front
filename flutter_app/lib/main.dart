@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/login.dart'; 
-import 'package:flutter_app/screens/dashboard.dart'; 
-import 'package:flutter_app/screens/listGalaxy.dart';
-import 'package:flutter_app/screens/list_all.dart';
 import 'package:flutter_app/control/route_generator.dart'; 
 
 void main() => runApp(MyApp());
