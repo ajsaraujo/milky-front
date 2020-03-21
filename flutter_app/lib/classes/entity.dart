@@ -5,7 +5,7 @@ import 'package:flutter_app/classes/satellite.dart';
 import 'package:flutter_app/classes/system.dart';
 import 'package:flutter_app/classes/star.dart';
 import 'package:flutter_app/classes/colored_star.dart'; 
-import 'package:flutter_app/control/string_tuple.dart'; 
+import 'package:flutter_app/control/string_tuple.dart';
 
 class Entity {
   String _name; 
@@ -18,7 +18,6 @@ class Entity {
   int get id => this._id;
 
   static Entity parseJson(dynamic json, StringTuple st) { 
-    print('Entrei no switch! ${st.controlName}'); 
     switch (st.controlName) {
       case 'galaxy':
         return Galaxy(json['name'], json['id'], json['numOfSystems'], 
@@ -44,6 +43,7 @@ class Entity {
         return Entity('Something went wrong', 0); 
     }
   }
+  
   // Esse ListTile será utilizado para construir 
   // a ListView nas telas de listagem. 
   Widget makeListTile() {
