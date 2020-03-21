@@ -35,9 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var data = await http.post('${Connection.hostname()}/api/auth/', headers: headers, body: json);
     
     if(data.statusCode == 200) {
-      Navigator.pushReplacement(context,
-       new MaterialPageRoute(
-           builder: (context) => new Dashboard()));
+      Navigator.of(context).pushReplacementNamed('/dashboard'); 
     }
     
     print('Ok! StatusCode: ${data.statusCode}');
@@ -92,7 +90,10 @@ class _LoginScreenState extends State<LoginScreen> {
         text: 'Não tenho uma conta',
         style: TextStyle(fontFamily: 'Montserrat', color: Colors.purple),
         recognizer: TapGestureRecognizer() 
-          ..onTap = () { print('O usuário quer criar uma conta! '); }
+          ..onTap = () { 
+            print('Gesto reconhecido, vamos lá!');
+            Navigator.of(context).pushNamed('/sign_up'); 
+          }
       )
     );
     
