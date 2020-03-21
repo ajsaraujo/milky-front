@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart'; 
 import 'package:flutter_app/control/string_tuple.dart';
-import 'package:flutter_app/screens/custom_app_bar.dart'; 
+import 'package:flutter_app/widgets/custom_app_bar.dart'; 
 
 class NewEntity extends StatefulWidget {
   StringTuple _myStringTuple;
