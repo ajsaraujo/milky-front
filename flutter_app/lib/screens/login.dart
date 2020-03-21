@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
 import 'package:flutter_app/screens/dashboard.dart';
 import 'package:flutter_app/control/connection.dart'; 
+import 'package:flutter_app/widgets/custom_button.dart'; 
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key, this.title}) : super(key: key);
@@ -76,13 +78,23 @@ class _LoginScreenState extends State<LoginScreen> {
       style: style,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        hintText: "Password",
+        hintText: "Senha",
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
       //Função que será chamada ao salvar o formulário.
       onSaved: (String value) => {this._data.password = value},
       validator: _validatePassword,
     );
+    final loginButton = CustomButton(
+      text: 'Login',
+      onPressed: () {
+        print('Ola, sou seu novo botao!\n');
+        _formKey.currentState.save(); 
+        if (_formKey.currentState.validate())
+          _auth(); 
+      },
+    ); 
+    /*
     final loginButton = Material(
         elevation: 5.0,
         borderRadius: BorderRadius.circular(30.0),
@@ -100,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: style.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                ))));
+                ))));*/ 
     return Scaffold(
         backgroundColor: Colors.white,
         body: Center(
