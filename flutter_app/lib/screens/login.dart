@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_app/screens/dashboard.dart';
 import 'package:flutter_app/control/connection.dart'; 
-
-//  TO DO:
-//    -~ Ter certeza que o email não é nulo ou inválido
-//    -~ Ter certeza que a senha não é nula ou inválida
-//    -~ Mostrar ao usuário caso ele não consiga conexão com o servidor
-//    -~ Dar um cookie/token caso o usuário consiga fazer login
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key, this.title}) : super(key: key);
@@ -19,7 +11,6 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-// Classe que armazena as informações de login.
 class _LoginData {
   String email = '';
   String password = '';
@@ -28,25 +19,24 @@ class _LoginData {
 class _LoginScreenState extends State<LoginScreen> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   
-  // Chave do formulário.
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   _LoginData _data = _LoginData();
   
-  // Cabeçalho das requisições http.
   static const Map<String, String> headers = {"Content-type": "application/json"};
 
-  // Função que comunica com o backend buscando autenticação do servidor.
   void _auth() async {
-    print('tentando conectar...'); 
+    print('Tentando conectar com o servidor...');
+    print('URL = ${Connection.hostname()}'); 
     String json = '{"email": "${_data.email}", "password": "${_data.password}"}';
-    var data = await http.post('${Connection.hostname()}/api/auth',headers: headers, body: json);
-    if(data.statusCode == 200){
+    var data = await http.post('${Connection.hostname()}/api/auth/', headers: headers, body: json);
+    
+    if(data.statusCode == 200) {
       Navigator.pushReplacement(context,
        new MaterialPageRoute(
            builder: (context) => new Dashboard()));
     }
-    print('a resposta chegou');
-    //print('fim');
+    
+    print('Ok! StatusCode: ${data.statusCode}');
   }
 
   // Essa verificação ainda pode melhorar. Por exemplo,
