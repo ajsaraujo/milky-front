@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_app/screens/dashboard.dart';
 import 'package:flutter_app/control/connection.dart'; 
 import 'package:flutter_app/widgets/custom_button.dart'; 
+import 'package:flutter_app/widgets/custom_form_field.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key, this.title}) : super(key: key);
@@ -61,30 +62,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final emailField = TextFormField(
+    final emailField = CustomFormField(
       obscureText: false,
-      style: style,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        hintText: "Email",
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
+      hintText: 'Email',
       onSaved: (String value) => {this._data.email = value},
-      validator: _validateEmail
-    );
+      validator: _validateEmail,
+    ); 
     
-    final passwordField = TextFormField(
+    final passwordField = CustomFormField(
       obscureText: true,
-      style: style,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        hintText: "Senha",
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-      //Função que será chamada ao salvar o formulário.
-      onSaved: (String value) => {this._data.password = value},
+      hintText: 'Senha', 
+      onSaved: (String value) => this._data.password = value,
       validator: _validatePassword,
-    );
+    ); 
+    
     final loginButton = CustomButton(
       text: 'Entrar',
       onPressed: () {
@@ -94,6 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
           _auth(); 
       },
     ); 
+    
     final signUpButton = CustomButton(
       text: 'Criar Conta',
       onPressed: () {
