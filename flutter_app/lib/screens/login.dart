@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -85,12 +86,16 @@ class _LoginScreenState extends State<LoginScreen> {
           _auth(); 
       },
     ); 
+
+    final signUpRichText = RichText(
+      text: TextSpan(
+        text: 'Não tenho uma conta',
+        style: TextStyle(fontFamily: 'Montserrat', color: Colors.purple),
+        recognizer: TapGestureRecognizer() 
+          ..onTap = () { print('O usuário quer criar uma conta! '); }
+      )
+    );
     
-    final signUpButton = CustomButton(
-      text: 'Criar Conta',
-      onPressed: () {
-        print('Mande o usuário pra tela de criação de conta...'); 
-      }); 
     return Scaffold(
         backgroundColor: Colors.white,
         body: Center(
@@ -116,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               SizedBox(height: 35.0),
                               loginButton,
                               SizedBox(height: 15.0),
-                              signUpButton
+                              signUpRichText
                             ],
                           ),
                         ))))));
