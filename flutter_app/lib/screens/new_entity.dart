@@ -76,7 +76,7 @@ class _NewEntityState extends State<NewEntity> {
     
     return Scaffold(
       appBar: CustomAppBar.makeAppBar(
-        'Criar nov${widget._myStringTuple.article} ${widget._myStringTuple.viewName}',
+        'Criar nov${widget._myStringTuple.arcticle} ${widget._myStringTuple.viewName}',
         context),
       body: Center(
         child: SingleChildScrollView(
