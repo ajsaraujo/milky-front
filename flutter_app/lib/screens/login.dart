@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
       validator: _validatePassword,
     );
     final loginButton = CustomButton(
-      text: 'Login',
+      text: 'Entrar',
       onPressed: () {
         print('Ola, sou seu novo botao!\n');
         _formKey.currentState.save(); 
@@ -94,25 +94,11 @@ class _LoginScreenState extends State<LoginScreen> {
           _auth(); 
       },
     ); 
-    /*
-    final loginButton = Material(
-        elevation: 5.0,
-        borderRadius: BorderRadius.circular(30.0),
-        color: Theme.of(context).primaryColor,
-        child: MaterialButton(
-            minWidth: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            onPressed: () {
-              _formKey.currentState.save();
-              if (_formKey.currentState.validate())
-                _auth();
-              },
-            child: Text("Login",
-                textAlign: TextAlign.center,
-                style: style.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ))));*/ 
+    final signUpButton = CustomButton(
+      text: 'Criar Conta',
+      onPressed: () {
+        print('Mande o usuário pra tela de criação de conta...'); 
+      }); 
     return Scaffold(
         backgroundColor: Colors.white,
         body: Center(
@@ -138,6 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               SizedBox(height: 35.0),
                               loginButton,
                               SizedBox(height: 15.0),
+                              signUpButton
                             ],
                           ),
                         ))))));

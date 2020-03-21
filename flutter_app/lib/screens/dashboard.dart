@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/custom_app_bar.dart';
-import 'package:flutter_app/screens/listGalaxy.dart';
+import 'package:flutter_app/widgets/custom_app_bar.dart';
+import 'package:flutter_app/screens/list_galaxy.dart';
 import 'package:flutter_app/control/string_tuple.dart';
 
 class Dashboard extends StatelessWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/custom_app_bar.dart'; 
 import 'package:http/http.dart' as http;
+
+import 'package:flutter_app/widgets/custom_app_bar.dart'; 
 import 'package:flutter_app/classes/entity.dart';
 import 'package:flutter_app/control/string_tuple.dart';
 import 'package:flutter_app/control/connection.dart';   

@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_app/classes/galaxy.dart';
-import 'package:flutter_app/screens/galaxyDetail.dart';
+import 'package:flutter_app/screens/galaxy_detail.dart';
 
 /*class Galaxy {
   String name;
