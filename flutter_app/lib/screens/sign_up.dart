@@ -9,11 +9,16 @@ class SignUpScreen extends StatefulWidget {
   _SignUpScreenState createState() => _SignUpScreenState();
 }
 
+class _UserData {
+  
+}
+
 class _SignUpScreenState extends State<SignUpScreen> {
 
-  static String _nickname; 
-  static String _email; 
-  static String _password; 
+  static final _nicknameController = new TextEditingController(); 
+  static final _emailController = new TextEditingController(); 
+  static final _passwordController1 = new TextEditingController();
+  static final _passwordController2 = new TextEditingController(); 
 
   static final GlobalKey<FormState> _formKey = new GlobalKey<FormState>(); 
   static final hintTextStyle = TextStyle(fontFamily: 'Montserrat', fontSize: 16.0); 
@@ -24,7 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     hintText: 'Ex: cj_og97',
     hintStyle: hintTextStyle,
     validator: Validator.validateNickname,
-    onSaved: (String value) { _nickname = value; },
+    controller: _nicknameController,
   ); 
 
   final emailField = CustomFormField(
@@ -32,22 +37,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
     labelText: 'Seu email',
     hintText: 'carljohnson@lsmail.com',
     hintStyle: TextStyle(fontFamily: 'Montserrat', fontSize: 16.0),
-    onSaved: (String value) {},
-    validator: (String value) { return null; },
+    validator: Validator.validateEmail,
+    controller: _emailController, 
   );
 
   final passwordField = CustomFormField(
     obscureText: true,
     labelText: 'Sua senha',
-    onSaved: (String value) {},
-    validator: (String value) { return null; },
+    controller: _passwordController1,
+    validator: Validator.validatePassword,
   );
 
   final confirmPasswordField = CustomFormField(
     obscureText: true,
     labelText: 'Confirme sua senha',
-    onSaved: (String value) {},
-    validator: (String value) { return null; },
+    controller: _passwordController2,
+    validator: (String value) {
+      print('Validando campo de confirmação de senha:');
+      print('SENHA1 = ${_passwordController1.text}');
+      print('SENHA2 = ${_passwordController2.text}');
+      if (_passwordController1.text != _passwordController2.text)
+        return 'As senhas não coincidem.'; 
+      return Validator.validatePassword(value); 
+    },
   );
 
   final submitButton = CustomButton(
