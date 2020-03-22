@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart'; 
 
-class ErrorSnackBar extends StatelessWidget {
+// Esse Widget está bugado e precisa ser consertado :(
+class ErrorSnackBar extends SnackBar {
   ErrorSnackBar({this.errorMessage}); 
 
   final errorMessage; 
@@ -9,7 +10,7 @@ class ErrorSnackBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SnackBar(
         content: Text(
-          errorMessage,
+          errorMessage ?? 'Algo deu errado...',
           textAlign: TextAlign.center,
           style: TextStyle(fontFamily: 'Montserrat',)
         ),
