@@ -41,12 +41,11 @@ class _LoginScreenState extends State<LoginScreen> {
     print('Ok! StatusCode: ${data.statusCode}');
   }
 
-  // Essa verificação ainda pode melhorar. Por exemplo,
-  // ela considera '@.' um e-mail válido.
   String _validateEmail(String email) {
+    final emailRegExp = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     if (email.isEmpty)
       return 'Digite seu e-mail'; 
-    if (!email.contains('@') || !email.contains('.'))
+    if (!emailRegExp.hasMatch(email))
       return 'Insira um e-mail válido'; 
     return null;
   }
