@@ -88,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final signUpRichText = RichText(
       text: TextSpan(
         text: 'Não tenho uma conta',
-        style: TextStyle(fontFamily: 'Montserrat', color: Colors.purple),
+        style: TextStyle(fontFamily: 'Montserrat', color: Colors.purple, fontSize: 20.0),
         recognizer: TapGestureRecognizer() 
           ..onTap = () { 
             print('Gesto reconhecido, vamos lá!');
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               passwordField,
                               SizedBox(height: 35.0),
                               loginButton,
-                              SizedBox(height: 15.0),
+                              SizedBox(height: 25.0),
                               signUpRichText
                             ],
                           ),

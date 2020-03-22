@@ -15,36 +15,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _password; 
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>(); 
+      
   final nicknameField = CustomFormField(
     obscureText: false,
-    hintText: 'Seu nome de usuário',
+    labelText: 'Seu nome de usuário',
+    hintText: 'Ex: cj_og97',
+    hintStyle: TextStyle(fontFamily: 'Montserrat', fontSize: 16.0),
     onSaved: (String value) {},
     validator: (String value) { return null; },
   ); 
 
   final emailField = CustomFormField(
     obscureText: false,
-    hintText: 'Seu email',
+    labelText: 'Seu email',
+    hintText: 'carljohnson@lsmail.com',
+    hintStyle: TextStyle(fontFamily: 'Montserrat', fontSize: 16.0),
     onSaved: (String value) {},
     validator: (String value) { return null; },
   );
 
   final passwordField = CustomFormField(
     obscureText: true,
-    hintText: 'Sua senha',
+    labelText: 'Sua senha',
     onSaved: (String value) {},
     validator: (String value) { return null; },
   );
 
   final confirmPasswordField = CustomFormField(
     obscureText: true,
-    hintText: 'Confirme sua senha',
+    labelText: 'Confirme sua senha',
     onSaved: (String value) {},
     validator: (String value) { return null; },
   );
 
   final submitButton = CustomButton(
-    text: 'Criar Conta', 
+    text: 'Criar', 
     onPressed: () {},
   ); 
 
@@ -56,6 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
+            height: MediaQuery.of(context).size.height, 
             color: Colors.white, 
             child: Padding(
               padding: const EdgeInsets.all(36.0),
@@ -65,10 +71,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    //SizedBox(height: 45.0), 
                     nicknameField,
+                    SizedBox(height: 40.0), 
                     emailField,
+                    SizedBox(height: 40.0),
                     passwordField,
+                    SizedBox(height: 40.0), 
                     confirmPasswordField,
+                    SizedBox(height: 90.0),
                     submitButton
                   ]
                 )
