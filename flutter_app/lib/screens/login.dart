@@ -17,23 +17,19 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginData {
-  String email = '';
-  String password = '';
-}
-
 class _LoginScreenState extends State<LoginScreen> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  _LoginData _data = _LoginData();
-  
+  final _emailController = new TextEditingController();
+  final _passwordController = new TextEditingController();
+
   static const Map<String, String> headers = {"Content-type": "application/json"};
 
   void _auth() async {
     print('Tentando conectar com o servidor...');
     print('URL = ${Connection.hostname()}'); 
-    String json = '{"email": "${_data.email}", "password": "${_data.password}"}';
+    String json = '{"email": "${_emailController.text}", "password": "${_passwordController.text}"}';
     var data = await http.post('${Connection.hostname()}/api/auth/', headers: headers, body: json);
     
     if(data.statusCode == 200) {
@@ -48,15 +44,15 @@ class _LoginScreenState extends State<LoginScreen> {
     final emailField = CustomFormField(
       obscureText: false,
       hintText: 'Email',
-      onSaved: (String value) => {this._data.email = value},
       validator: Validator.validateEmail,
+      controller: _emailController, 
     ); 
     
     final passwordField = CustomFormField(
       obscureText: true,
       hintText: 'Senha', 
-      onSaved: (String value) => this._data.password = value,
-      validator: Validator.validatePassword,
+      validator: (String password) => password.isEmpty ? 'Digite sua senha.' : null,
+      controller: _passwordController, 
     ); 
     
     final loginButton = CustomButton(
@@ -64,6 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
       onPressed: () {
         print('Ola, sou seu novo botao!\n');
         _formKey.currentState.save(); 
+        print('Email: ${_emailController.text}');
+        print('Password: ${_passwordController.text}');
         if (_formKey.currentState.validate())
           _auth(); 
       },

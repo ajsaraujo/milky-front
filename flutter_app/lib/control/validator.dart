@@ -12,7 +12,9 @@ class Validator {
   static String validatePassword(String password) {
     final passwordRegExp = RegExp(r'.'); 
     if (password.isEmpty) 
-      return 'Digite sua senha.'; 
+      return 'Digite sua senha.';
+    if (password.length < 8)
+      return 'A senha deve ter pelo menos 8 caracteres.';  
     if (!passwordRegExp.hasMatch(password))
       return 'Digite uma senha válida.'; 
     return null; 

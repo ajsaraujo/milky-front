@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart'; 
 
 class CustomFormField extends StatelessWidget {
-  CustomFormField({this.hintText, this.hintStyle, this.obscureText, this.validator, this.onSaved, this.labelText}); 
+  CustomFormField({this.controller, this.hintText, this.hintStyle, this.obscureText, this.validator, this.onSaved, this.labelText}); 
 
+  final TextEditingController controller; 
   final String hintText;
   final String labelText;
   final TextStyle hintStyle;   
@@ -13,6 +14,7 @@ class CustomFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: this.controller, 
       obscureText: this.obscureText,
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
