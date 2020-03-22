@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter_app/control/connection.dart'; 
 import 'package:flutter_app/control/validator.dart'; 
-import 'package:flutter_app/screens/dashboard.dart';
+import 'package:flutter_app/widgets/error_snackbar.dart'; 
 import 'package:flutter_app/widgets/custom_button.dart'; 
 import 'package:flutter_app/widgets/custom_form_field.dart';
 
@@ -18,22 +18,65 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>(); 
+  
   final _emailController = new TextEditingController();
   final _passwordController = new TextEditingController();
-
+  
+  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   static const Map<String, String> headers = {"Content-type": "application/json"};
 
   void _auth() async {
+    var isConnected = await Connection.isConnected(); 
+
+    if (!isConnected) {
+      final noConnectionSnackBar = SnackBar(
+        content: Text('Conecte-se à internet.',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontFamily: 'Montserrat', color: Colors.white),
+        ),
+        backgroundColor: Colors.red,
+      ); 
+
+      scaffoldKey.currentState.showSnackBar(noConnectionSnackBar);
+      return;  
+    }
+
+    final waitingSnackBar = SnackBar(
+      content: Text(
+        'Autenticando...',
+        style: TextStyle(fontFamily: 'Montserrat', color: Colors.white),
+        textAlign: TextAlign.center,
+      ),
+      duration: Duration(minutes: 1), 
+      backgroundColor: Colors.purple,
+    ); 
+
+    // Gambiarra! A SnackBar fica com duração fixa de 1 minuto 
+    // e é removida quando chega a resposta. O correto era ela ser
+    // mostrada com programação assíncrona. Ou não!
+    scaffoldKey.currentState.showSnackBar(waitingSnackBar); 
+
     print('Tentando conectar com o servidor...');
     print('URL = ${Connection.hostname()}'); 
     String json = '{"email": "${_emailController.text}", "password": "${_passwordController.text}"}';
     var data = await http.post('${Connection.hostname()}/api/auth/', headers: headers, body: json);
-    
+
+    scaffoldKey.currentState.removeCurrentSnackBar(); 
+
     if(data.statusCode == 200) {
       Navigator.of(context).pushReplacementNamed('/dashboard'); 
+    } else {
+      final authErrorSnackbar = SnackBar(
+        content: Text('Email e/ou senha inválidos.',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontFamily: 'Montserrat', color: Colors.white),
+        ),
+        backgroundColor: Colors.red,
+      );
+      scaffoldKey.currentState.showSnackBar(authErrorSnackbar); 
     }
     
     print('Ok! StatusCode: ${data.statusCode}');
@@ -46,13 +89,14 @@ class _LoginScreenState extends State<LoginScreen> {
       hintText: 'Email',
       validator: Validator.validateEmail,
       controller: _emailController, 
+      inputType: TextInputType.emailAddress,
     ); 
     
     final passwordField = CustomFormField(
       obscureText: true,
       hintText: 'Senha', 
       validator: (String password) => password.isEmpty ? 'Digite sua senha.' : null,
-      controller: _passwordController, 
+      controller: _passwordController,
     ); 
     
     final loginButton = CustomButton(
@@ -80,6 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     
     return Scaffold(
+        key: scaffoldKey, 
         backgroundColor: Colors.white,
         body: Center(
             child: SingleChildScrollView(
