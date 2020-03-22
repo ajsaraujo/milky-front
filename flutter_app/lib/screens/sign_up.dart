@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/control/validator.dart'; 
 import 'package:flutter_app/widgets/custom_app_bar.dart';
 import 'package:flutter_app/widgets/custom_form_field.dart'; 
 import 'package:flutter_app/widgets/custom_button.dart'; 
@@ -10,19 +11,20 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
 
-  String _nickname; 
-  String _email; 
-  String _password; 
+  static String _nickname; 
+  static String _email; 
+  static String _password; 
 
-  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>(); 
-      
+  static final GlobalKey<FormState> _formKey = new GlobalKey<FormState>(); 
+  static final hintTextStyle = TextStyle(fontFamily: 'Montserrat', fontSize: 16.0); 
+  
   final nicknameField = CustomFormField(
     obscureText: false,
     labelText: 'Seu nome de usuário',
     hintText: 'Ex: cj_og97',
-    hintStyle: TextStyle(fontFamily: 'Montserrat', fontSize: 16.0),
-    onSaved: (String value) {},
-    validator: (String value) { return null; },
+    hintStyle: hintTextStyle,
+    validator: Validator.validateNickname,
+    onSaved: (String value) { _nickname = value; },
   ); 
 
   final emailField = CustomFormField(
@@ -50,7 +52,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final submitButton = CustomButton(
     text: 'Criar', 
-    onPressed: () {},
+    onPressed: () {
+      _formKey.currentState.save(); 
+      if (_formKey.currentState.validate()) {
+        print('Vamos criar essa conta!'); 
+      }
+    },
   ); 
 
   @override

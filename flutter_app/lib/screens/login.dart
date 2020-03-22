@@ -2,10 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:flutter_app/screens/dashboard.dart';
 import 'package:flutter_app/control/connection.dart'; 
+import 'package:flutter_app/control/validator.dart'; 
+import 'package:flutter_app/screens/dashboard.dart';
 import 'package:flutter_app/widgets/custom_button.dart'; 
 import 'package:flutter_app/widgets/custom_form_field.dart';
+
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key, this.title}) : super(key: key);
@@ -41,37 +43,20 @@ class _LoginScreenState extends State<LoginScreen> {
     print('Ok! StatusCode: ${data.statusCode}');
   }
 
-  String _validateEmail(String email) {
-    final emailRegExp = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-    if (email.isEmpty)
-      return 'Digite seu e-mail'; 
-    if (!emailRegExp.hasMatch(email))
-      return 'Insira um e-mail válido'; 
-    return null;
-  }
-
-  String _validatePassword(String password) {
-    // A validação pode verificar se o usuário utilizou
-    // algum caractere proibido. 
-    if (password.isEmpty)
-      return 'Insira sua senha';
-    return null; 
-  }
-
   @override
   Widget build(BuildContext context) {
     final emailField = CustomFormField(
       obscureText: false,
       hintText: 'Email',
       onSaved: (String value) => {this._data.email = value},
-      validator: _validateEmail,
+      validator: Validator.validateEmail,
     ); 
     
     final passwordField = CustomFormField(
       obscureText: true,
       hintText: 'Senha', 
       onSaved: (String value) => this._data.password = value,
-      validator: _validatePassword,
+      validator: Validator.validatePassword,
     ); 
     
     final loginButton = CustomButton(
