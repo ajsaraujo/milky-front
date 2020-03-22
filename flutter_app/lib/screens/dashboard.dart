@@ -7,7 +7,7 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.makeAppBar('Selecione uma entidade', context),
+      appBar: CustomAppBar(title: 'Selecione uma entidade'),
       body: Container(
           padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
           child: GridView.count(

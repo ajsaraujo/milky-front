@@ -44,7 +44,7 @@ class _ListAllState extends State<ListAll> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.makeAppBar(widget.myStringTuple.viewName, context),
+      appBar: CustomAppBar(title: widget.myStringTuple.viewName),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         child: Icon(Icons.add, color: Theme.of(context).accentColor),
