@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_app/control/validator.dart'; 
+import 'package:flutter_app/control/connection.dart'; 
 import 'package:flutter_app/widgets/custom_app_bar.dart';
 import 'package:flutter_app/widgets/custom_form_field.dart'; 
 import 'package:flutter_app/widgets/custom_button.dart'; 
@@ -9,10 +11,6 @@ class SignUpScreen extends StatefulWidget {
   _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _UserData {
-  
-}
-
 class _SignUpScreenState extends State<SignUpScreen> {
 
   static final _nicknameController = new TextEditingController(); 
@@ -20,9 +18,69 @@ class _SignUpScreenState extends State<SignUpScreen> {
   static final _passwordController1 = new TextEditingController();
   static final _passwordController2 = new TextEditingController(); 
 
+  static final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   static final GlobalKey<FormState> _formKey = new GlobalKey<FormState>(); 
+
   static final hintTextStyle = TextStyle(fontFamily: 'Montserrat', fontSize: 16.0); 
   
+  static void _createUser() async {
+    bool isConnected = await Connection.isConnected(); 
+
+    // Repetição do mesmo código que aparece em login.dart. Modularize assim que possível
+    if (!isConnected) {
+      final noConnectionSnackBar = SnackBar(
+        content: Text('Conecte-se à internet.',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontFamily: 'Montserrat', color: Colors.white),
+        ),
+        backgroundColor: Colors.red,
+      ); 
+
+      _scaffoldKey.currentState.showSnackBar(noConnectionSnackBar);
+      return;  
+    }
+
+    final waitingSnackBar = SnackBar(
+      content: Text(
+        'Conectando com o servidor...',
+        style: TextStyle(fontFamily: 'Montserrat', color: Colors.white),
+        textAlign: TextAlign.center,
+      ),
+      duration: Duration(minutes: 1), 
+      backgroundColor: Colors.purple,
+    ); 
+
+    _scaffoldKey.currentState.showSnackBar(waitingSnackBar); 
+    
+    final String json = '''
+      {
+        "name": "${_nicknameController.text}",
+        "email": "${_emailController.text}",
+        "password": "${_passwordController1.text}" 
+      }
+    ''';
+
+    print('Requisição batendo no URL ${Connection.hostname()}/api/users/'); 
+    print('Headers: ${Connection.headers}'); 
+
+    final data = await http.post('${Connection.hostname()}/api/users/',
+      headers: Connection.headers, 
+      body: json
+    );
+
+    _scaffoldKey.currentState.removeCurrentSnackBar(); 
+    
+    if (data.statusCode == 201) {
+      print('Usuário criado com sucesso!');
+    } else if (data.statusCode == 401) {
+      print('O email já está em uso!'); 
+    } else {
+      print('Algo estranho aconteceu...'); 
+      print(data.statusCode); 
+      print(data.body);
+    }
+  }
+
   final nicknameField = CustomFormField(
     obscureText: false,
     labelText: 'Seu nome de usuário',
@@ -38,7 +96,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     hintText: 'carljohnson@lsmail.com',
     hintStyle: TextStyle(fontFamily: 'Montserrat', fontSize: 16.0),
     validator: Validator.validateEmail,
-    controller: _emailController, 
+    controller: _emailController,
+    inputType: TextInputType.emailAddress, 
   );
 
   final passwordField = CustomFormField(
@@ -67,7 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     onPressed: () {
       _formKey.currentState.save(); 
       if (_formKey.currentState.validate()) {
-        print('Vamos criar essa conta!'); 
+        _createUser(); 
       }
     },
   ); 
@@ -76,6 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     print('Agora, vou tentar renderizar a tela!'); 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: CustomAppBar(title: 'Criar conta'),
       body: Center(
         child: SingleChildScrollView(
