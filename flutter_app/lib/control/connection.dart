@@ -2,6 +2,8 @@
 import 'package:connectivity/connectivity.dart';
 
 class Connection {
+  static const Map<String, String> headers = {"Content-type": "application/json"};
+  
   static String hostname() {
     var location = 'cloud'; 
     

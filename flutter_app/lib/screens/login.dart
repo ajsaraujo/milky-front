@@ -26,7 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = new TextEditingController();
   
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-  static const Map<String, String> headers = {"Content-type": "application/json"};
 
   void _auth() async {
     var isConnected = await Connection.isConnected(); 
@@ -62,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
     print('Tentando conectar com o servidor...');
     print('URL = ${Connection.hostname()}'); 
     String json = '{"email": "${_emailController.text}", "password": "${_passwordController.text}"}';
-    var data = await http.post('${Connection.hostname()}/api/auth/', headers: headers, body: json);
+    var data = await http.post('${Connection.hostname()}/api/auth/', headers: Connection.headers, body: json);
 
     scaffoldKey.currentState.removeCurrentSnackBar(); 
 
