@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart'; 
 import 'package:flutter_app/control/string_tuple.dart';
 import 'package:flutter_app/widgets/custom_app_bar.dart'; 
+import 'package:flutter_app/classes/star.dart';
+import 'package:flutter_app/classes/planet.dart';
+import 'package:flutter_app/classes/galaxy.dart'; 
+import 'package:flutter_app/classes/satellite.dart'; 
+import 'package:flutter_app/classes/system.dart'; 
+import 'package:flutter_app/classes/entity.dart'; 
+
+
 
 class NewEntity extends StatefulWidget {
   StringTuple _myStringTuple;
@@ -30,18 +38,20 @@ class _NewEntityState extends State<NewEntity> {
     List<Widget> myFields = List<Widget>(); 
 
     myFields.add(makeTextFormField('Nome', 'text'));
-    SizedBox(height: 100.0); 
+    SizedBox(height: 40.0); 
     myFields.add(makeTextFormField('id', 'number')); 
-    SizedBox(height: 100.0);
+    SizedBox(height: 40.0);
+
+    Entity myEntity; 
 
     switch (widget._myStringTuple.controlName) {
       case 'star':
         myFields.add(makeTextFormField('Massa', 'number')); 
-        SizedBox(height: 100.0);
+        SizedBox(height: 40.0);
         myFields.add(makeTextFormField('Distância da terra', 'number'));
-        SizedBox(height: 100.0);        
+        SizedBox(height: 40.0);        
         myFields.add(makeTextFormField('Gravidade', 'number'));
-        SizedBox(height: 100.0);                
+        SizedBox(height: 40.0);                
         myFields.add(makeTextFormField('Idade', 'number'));
         break; 
       case 'planet':
@@ -54,6 +64,7 @@ class _NewEntityState extends State<NewEntity> {
         myFields.add(makeTextFormField('Composição', 'text')); 
         break;
       case 'galaxy':
+        myEntity = Galaxy(null, null, null, null); 
         myFields.add(makeTextFormField('Número de sistemas', 'number')); 
         SizedBox(height: 100.0);
         myFields.add(makeTextFormField('Distância da terra', 'number')); 
@@ -64,6 +75,7 @@ class _NewEntityState extends State<NewEntity> {
         myFields.add(makeTextFormField('Massa', 'number'));
         break; 
       case 'system':
+        myEntity = System(null, null, null, null, null, ); 
         myFields.add(makeTextFormField('Número de planetas', 'number'));
         SizedBox(height: 10.0);
         myFields.add(makeTextFormField('Número de estrelas', 'number')); 
@@ -80,6 +92,7 @@ class _NewEntityState extends State<NewEntity> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
+            height: MediaQuery.of(context).size.height, 
             color: Theme.of(context).accentColor, 
             child: Padding(
               padding: const EdgeInsets.all(36.0), 

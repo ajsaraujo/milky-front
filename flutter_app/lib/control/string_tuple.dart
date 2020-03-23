@@ -32,7 +32,7 @@ class StringTuple {
       case 'star':
         return StringTuple('star', 'Estrela', 'a'); 
       case 'system':
-        return StringTuple('system', 'Sistema', 'o'); 
+        return StringTuple('planetarySystem', 'Sistema', 'o'); 
       default:
         return StringTuple('error', 'Erros', 'o'); 
     }

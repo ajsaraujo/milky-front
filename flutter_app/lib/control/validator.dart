@@ -39,28 +39,24 @@ class Validator {
       return 'Digite um nome.'; 
     if (name.length < 3)
       return 'Nome muito curto.'; 
-    if (name.length > 5)
+    if (name.length > 50)
       return 'Nome muito longo.'; 
     if (!nameRegExp.hasMatch(name))
       return 'Use apenas alfanumérico, underline e espaços.';
     return null; 
   }
 
-  static String validateID(String id) {
-    final idRegExp = RegExp(r'^[0-9]{4,4}$'); 
-    if (id.isEmpty)
-      return 'Digite um ID.'; 
-    if (id.length != 4)
-      return 'O ID deve ter 4 dígitos.'; 
-    if (!idRegExp.hasMatch(id))
-      return 'ID inválido.'; 
+  static String validateLongString(String name) {
+    final regEx = RegExp(r'^[a-zA-Z0-9_ \%\:]*$'); 
+    if (name.length > 512)
+      return 'Composição muito longa.'; 
+    if (!regEx.hasMatch(name))
+      return 'Entrada inválida.'; 
     return null; 
   }
 
   static String validateNumber(String number) {
     final idRegExp = RegExp(r'^[1-9][0-9]*$'); 
-    if (number.isEmpty)
-      return 'Digite um número.'; 
     if (number[0] == 0)
       return 'O número não pode começar com 0.'; 
     if (!idRegExp.hasMatch(number))
