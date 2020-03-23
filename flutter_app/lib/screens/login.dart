@@ -31,33 +31,27 @@ class _LoginScreenState extends State<LoginScreen> {
     var isConnected = await Connection.isConnected(); 
 
     if (!isConnected) {
-      final noConnectionSnackBar = SnackBar(
-        content: Text('Conecte-se à internet.',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontFamily: 'Montserrat', color: Colors.white),
-        ),
-        backgroundColor: Colors.red,
+      final noConnectionSnackBar = ErrorSnackBar(
+        errorMessage: 'Conecte-se à internet.', 
+        scaffoldKey: this.scaffoldKey
       ); 
 
-      scaffoldKey.currentState.showSnackBar(noConnectionSnackBar);
+      noConnectionSnackBar.display(); 
       return;  
     }
 
-    final waitingSnackBar = SnackBar(
-      content: Text(
-        'Autenticando...',
-        style: TextStyle(fontFamily: 'Montserrat', color: Colors.white),
-        textAlign: TextAlign.center,
-      ),
+    final waitingSnackBar = ErrorSnackBar(
+      errorMessage: 'Autenticando...', 
       duration: Duration(minutes: 1), 
-      backgroundColor: Colors.purple,
-    ); 
+      backgroundColor: Colors.purple, 
+      scaffoldKey: this.scaffoldKey,
+    );
 
     // Gambiarra! A SnackBar fica com duração fixa de 1 minuto 
     // e é removida quando chega a resposta. O correto era ela ser
     // mostrada com programação assíncrona. Ou não!
-    scaffoldKey.currentState.showSnackBar(waitingSnackBar); 
-
+    waitingSnackBar.display(); 
+    
     print('Tentando conectar com o servidor...');
     print('URL = ${Connection.hostname()}'); 
     String json = '{"email": "${_emailController.text}", "password": "${_passwordController.text}"}';
@@ -68,14 +62,11 @@ class _LoginScreenState extends State<LoginScreen> {
     if(data.statusCode == 200) {
       Navigator.of(context).pushReplacementNamed('/dashboard'); 
     } else {
-      final authErrorSnackbar = SnackBar(
-        content: Text('Email e/ou senha inválidos.',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontFamily: 'Montserrat', color: Colors.white),
-        ),
-        backgroundColor: Colors.red,
+      final authErrorSnackBar = ErrorSnackBar(
+        errorMessage: 'Email e/ou senha inválidos.', 
+        scaffoldKey: this.scaffoldKey
       );
-      scaffoldKey.currentState.showSnackBar(authErrorSnackbar); 
+      authErrorSnackBar.display(); 
     }
     
     print('Ok! StatusCode: ${data.statusCode}');

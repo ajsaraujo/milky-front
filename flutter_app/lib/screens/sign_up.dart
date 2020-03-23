@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widgets/error_snackbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_app/control/validator.dart'; 
 import 'package:flutter_app/control/connection.dart'; 
@@ -28,15 +29,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     // Repetição do mesmo código que aparece em login.dart. Modularize assim que possível
     if (!isConnected) {
-      final noConnectionSnackBar = SnackBar(
-        content: Text('Conecte-se à internet.',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontFamily: 'Montserrat', color: Colors.white),
-        ),
+      final noConnectionSnackBar = ErrorSnackBar(
+        errorMessage: 'Conecte-se à Internet.',
         backgroundColor: Colors.red,
+        scaffoldKey: _scaffoldKey
       ); 
 
-      _scaffoldKey.currentState.showSnackBar(noConnectionSnackBar);
+      noConnectionSnackBar.display();
       return;  
     }
 
