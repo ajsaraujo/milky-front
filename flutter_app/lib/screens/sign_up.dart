@@ -6,6 +6,7 @@ import 'package:flutter_app/control/connection.dart';
 import 'package:flutter_app/widgets/custom_app_bar.dart';
 import 'package:flutter_app/widgets/custom_form_field.dart'; 
 import 'package:flutter_app/widgets/custom_button.dart'; 
+import 'package:flutter_app/widgets/custom_dialog.dart'; 
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -24,7 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   static final hintTextStyle = TextStyle(fontFamily: 'Montserrat', fontSize: 16.0); 
   
-  static void _createUser() async {
+  static void _createUser(BuildContext context) async {
     bool isConnected = await Connection.isConnected(); 
 
     // Repetição do mesmo código que aparece em login.dart. Modularize assim que possível
@@ -71,6 +72,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     
     if (data.statusCode == 201) {
       print('Usuário criado com sucesso!');
+      CustomDialog.showMyDialog(
+        context: context, 
+        title: 'Conta criada com sucesso!', 
+        content: 'Agora você já pode logar no aplicativo :)',
+      ); 
     } else if (data.statusCode == 401) {
       print('O email já está em uso!'); 
     } else {
@@ -120,15 +126,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     },
   );
 
-  final submitButton = CustomButton(
+  final submitButton = ((BuildContext context) => CustomButton(
     text: 'Criar', 
     onPressed: () {
       _formKey.currentState.save(); 
       if (_formKey.currentState.validate()) {
-        _createUser(); 
+        _createUser(context); 
       }
     },
-  ); 
+  )); 
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +164,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(height: 40.0), 
                     confirmPasswordField,
                     SizedBox(height: 90.0),
-                    submitButton
+                    submitButton(context), 
                   ]
                 )
               )
