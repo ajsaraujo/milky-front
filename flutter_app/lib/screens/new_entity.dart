@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart'; 
 import 'package:flutter_app/control/string_tuple.dart';
 import 'package:flutter_app/widgets/custom_app_bar.dart'; 
-import 'package:flutter_app/classes/star.dart';
-import 'package:flutter_app/classes/planet.dart';
-import 'package:flutter_app/classes/galaxy.dart'; 
-import 'package:flutter_app/classes/satellite.dart'; 
-import 'package:flutter_app/classes/system.dart'; 
-import 'package:flutter_app/classes/entity.dart'; 
-
-
+import 'package:flutter_app/control/validator.dart';
+import 'package:flutter_app/widgets/custom_button.dart';
+import 'package:flutter_app/widgets/custom_form_field.dart'; 
 
 class NewEntity extends StatefulWidget {
   StringTuple _myStringTuple;
@@ -21,70 +16,155 @@ class NewEntity extends StatefulWidget {
 
 class _NewEntityState extends State<NewEntity> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  
-  Widget makeTextFormField(String fieldLabel, String fieldType) {
-    return TextFormField(
-      keyboardType: fieldType == 'number' ? TextInputType.number : TextInputType.text,
-      obscureText: false,
-      style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
-      decoration: InputDecoration(
-        hintText: fieldLabel
-      ),
-      onSaved: (value) {}
+
+  Function nameLoader; 
+  Function numOfSysLoader; 
+  Function distanceToEarthLoader; 
+  Function sizeLoader; 
+  Function massLoader; 
+  Function rotationSpeedLoader; 
+  Function compositionLoader; 
+  Function gravityLoader; 
+  Function numOfPlanetsLoader; 
+  Function numOfStarsLoader; 
+
+  final nameField = CustomFormField(
+      labelText: 'Nome', 
+      validator: Validator.validateNickname, 
+      onSaved: (String) { print('Something'); }
     );
-  }
+
+  final numOfSysField = CustomFormField(
+      labelText: 'Número de sistemas',
+      validator: Validator.validateNumber, 
+      inputType: TextInputType.number,
+      onSaved: (String) { print('Something'); }
+    ); 
+
+    final distanceToEarthField = CustomFormField(
+      labelText: 'Distância da terra', 
+      validator: Validator.validateNumber, 
+      inputType: TextInputType.number,
+      onSaved: (String) { print('Something'); }
+    ); 
+
+    final sizeField = CustomFormField(
+      labelText: 'Tamanho',
+      validator: Validator.validateNumber,
+      inputType: TextInputType.number, 
+      onSaved: (String) { print('Something'); }
+    ); 
+
+    final massField = CustomFormField(
+      labelText: 'Massa',
+      validator: Validator.validateNumber, 
+      inputType: TextInputType.number,
+      onSaved: (String) { print('Something'); },
+    ); 
+
+    final rotationSpeedField = CustomFormField(
+      labelText: 'Velocidade de Rotação', 
+      validator: Validator.validateNumber,
+      inputType: TextInputType.number,
+      onSaved: (String) { print('Something'); }
+    ); 
+
+    final compositionField = CustomFormField(
+      labelText: 'Composição',
+      validator: Validator.validateLongString, 
+      onSaved: (String) { print('Something'); }
+    );
+
+    final gravityField = CustomFormField(
+      labelText: 'Gravidade', 
+      validator: Validator.validateLongString, 
+      onSaved: (String) { print('Something'); }
+    ); 
+
+    final numOfPlanetsField = CustomFormField(
+      labelText: 'Número de planetas',
+      validator: Validator.validateNumber,
+      inputType: TextInputType.number,
+      onSaved: (String) { print('Something'); },
+    ); 
+
+    final numOfStars = CustomFormField(
+      labelText: 'Número de estrelas',
+      validator: Validator.validateNumber, 
+      inputType: TextInputType.number,
+      onSaved: (String) { print('Something'); },
+    ); 
+
+    final ageField = CustomFormField(
+      labelText: 'Idade', 
+      validator: Validator.validateNumber, 
+      inputType: TextInputType.number, 
+      onSaved: (String) { print('Something'); }
+    ); 
+
+    final numOfStarsField = CustomFormField(
+      labelText: 'Número de estrelas', 
+      validator: Validator.validateNumber, 
+      inputType: TextInputType.number,
+      onSaved: (String) { print('Something'); }
+    );
+  
   @override
   Widget build(BuildContext context) {
     List<Widget> myFields = List<Widget>(); 
 
-    myFields.add(makeTextFormField('Nome', 'text'));
-    SizedBox(height: 40.0); 
-    myFields.add(makeTextFormField('id', 'number')); 
-    SizedBox(height: 40.0);
-
-    Entity myEntity; 
+    myFields.add(nameField); 
+    myFields.add(SizedBox(height: 40.0)); 
 
     switch (widget._myStringTuple.controlName) {
-      case 'star':
-        myFields.add(makeTextFormField('Massa', 'number')); 
-        SizedBox(height: 40.0);
-        myFields.add(makeTextFormField('Distância da terra', 'number'));
-        SizedBox(height: 40.0);        
-        myFields.add(makeTextFormField('Gravidade', 'number'));
-        SizedBox(height: 40.0);                
-        myFields.add(makeTextFormField('Idade', 'number'));
-        break; 
+      case 'galaxy': 
+        myFields.add(numOfSysField); 
+        myFields.add(SizedBox(height: 40.0)); 
+        myFields.add(distanceToEarthField);
+        break;  
       case 'planet':
-        myFields.add(makeTextFormField('Tamanho', 'number'));
-        SizedBox(height: 100.0);
-        myFields.add(makeTextFormField('Massa', 'number'));
-        SizedBox(height: 100.0);
-        myFields.add(makeTextFormField('Gravidade', 'number')); 
-        SizedBox(height: 100.0);
-        myFields.add(makeTextFormField('Composição', 'text')); 
-        break;
-      case 'galaxy':
-        myEntity = Galaxy(null, null, null, null); 
-        myFields.add(makeTextFormField('Número de sistemas', 'number')); 
-        SizedBox(height: 100.0);
-        myFields.add(makeTextFormField('Distância da terra', 'number')); 
+        myFields.add(sizeField); 
+        myFields.add(SizedBox(height: 40.0)); 
+        myFields.add(massField);
+        myFields.add(SizedBox(height: 40.0)); 
+        myFields.add(rotationSpeedField); 
+        myFields.add(SizedBox(height: 40.0)); 
+        myFields.add(compositionField); 
+        //myFields.add(hasSatelliteField);
         break; 
       case 'satellite':
-        myFields.add(makeTextFormField('Composição', 'text')); 
-        SizedBox(height: 10.0);
-        myFields.add(makeTextFormField('Massa', 'number'));
+        myFields.add(compositionField);
+        myFields.add(SizedBox(height: 40.0)); 
+        myFields.add(sizeField);
+        myFields.add(SizedBox(height: 40.0)); 
+        myFields.add(massField);
         break; 
-      case 'system':
-        myEntity = System(null, null, null, null, null, ); 
-        myFields.add(makeTextFormField('Número de planetas', 'number'));
-        SizedBox(height: 10.0);
-        myFields.add(makeTextFormField('Número de estrelas', 'number')); 
-        SizedBox(height: 10.0);
-        myFields.add(makeTextFormField('Idade', 'number')); 
+      case 'star':
+        myFields.add(sizeField);
+        myFields.add(SizedBox(height: 40.0)); 
+        myFields.add(ageField); 
+        myFields.add(SizedBox(height: 40.0)); 
+        myFields.add(gravityField); 
+        myFields.add(SizedBox(height: 40.0)); 
+        myFields.add(distanceToEarthField); 
+        myFields.add(SizedBox(height: 40.0)); 
         break; 
-      default:
-        myFields.add(makeTextFormField('Erro', 'text'));  
+      case 'planetarySystem': 
+        myFields.add(numOfPlanetsField); 
+        myFields.add(SizedBox(height: 40.0)); 
+        myFields.add(numOfStarsField); 
+        myFields.add(SizedBox(height: 40.0)); 
+        myFields.add(ageField);
     }
+
+
+    final submitButton = CustomButton(
+      text: 'Criar', 
+      onPressed: () {}
+    ); 
+
+    myFields.add(SizedBox(height: 90.0)); 
+    myFields.add(submitButton); 
     
     return Scaffold(
       appBar: CustomAppBar(
@@ -101,7 +181,8 @@ class _NewEntityState extends State<NewEntity> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: myFields,)
+                  children: myFields,
+                  )
               ),
 
             )
