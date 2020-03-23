@@ -21,7 +21,7 @@ class Validator {
   }
 
   static String validateNickname(String nickname) {
-    final nicknameRegExp = RegExp(r'^[a-zA-Z0-9_]{3,50}$');
+    final nicknameRegExp = RegExp(r'^[a-zA-Z0-9_ ]{3,50}$');
     if (nickname.isEmpty)
       return 'Digite um nome de usuário.'; 
     if (nickname.length < 3)
@@ -29,7 +29,42 @@ class Validator {
     if (nickname.length > 50)
       return 'Nome de usuário muito longo.'; 
     if (!nicknameRegExp.hasMatch(nickname)) 
-      return 'Apenas alfanumérico e underline.'; 
+      return 'Use apenas alfanumérico, underline e espaços.'; 
     return null;    
+  }
+
+  static String validateEntityName(String name) {
+    final nameRegExp = RegExp(r'^[a-zA-Z0-9_ ]{3,50}$');
+    if (name.isEmpty)
+      return 'Digite um nome.'; 
+    if (name.length < 3)
+      return 'Nome muito curto.'; 
+    if (name.length > 5)
+      return 'Nome muito longo.'; 
+    if (!nameRegExp.hasMatch(name))
+      return 'Use apenas alfanumérico, underline e espaços.';
+    return null; 
+  }
+
+  static String validateID(String id) {
+    final idRegExp = RegExp(r'^[0-9]{4,4}$'); 
+    if (id.isEmpty)
+      return 'Digite um ID.'; 
+    if (id.length != 4)
+      return 'O ID deve ter 4 dígitos.'; 
+    if (!idRegExp.hasMatch(id))
+      return 'ID inválido.'; 
+    return null; 
+  }
+
+  static String validateNumber(String number) {
+    final idRegExp = RegExp(r'^[1-9][0-9]*$'); 
+    if (number.isEmpty)
+      return 'Digite um número.'; 
+    if (number[0] == 0)
+      return 'O número não pode começar com 0.'; 
+    if (!idRegExp.hasMatch(number))
+      return 'Entrada inválida.';
+    return null; 
   }
 }
