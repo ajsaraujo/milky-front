@@ -4,7 +4,6 @@ import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/list_all.dart'; 
 import 'package:flutter_app/screens/new_entity.dart'; 
 import 'package:flutter_app/screens/sign_up.dart'; 
-import 'package:flutter_app/control/string_tuple.dart'; 
 import 'package:flutter_app/screens/dashboard.dart'; 
 import 'package:flutter_app/classes/entity.dart'; 
 
@@ -13,20 +12,20 @@ class RouteGenerator {
     final args = settings.arguments; 
 
     switch (settings.name) {
-      case '/dashboard': 
+      case '/': 
         return MaterialPageRoute(builder: (_) => LoginScreen());
-      case '/':
+      case '/dashboard':
         return MaterialPageRoute(builder: (_) => Dashboard()); 
       case '/sign_up':
         print('Eu cheguei no RouteGenerator!'); 
         return MaterialPageRoute(builder: (_) => SignUpScreen()); 
       case '/list_all':
-        if (args is StringTuple)
+        if (args is Entity)
           return MaterialPageRoute(
             builder: (_) => ListAll(args));
         return _errorRoute(); 
       case '/new_entity':
-        if (args is StringTuple) {
+        if (args is Entity) {
           final myPage = NewEntity(args); 
           return MaterialPageRoute(
             builder: (_) => myPage,

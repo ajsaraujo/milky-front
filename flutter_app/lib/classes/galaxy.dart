@@ -17,7 +17,7 @@ class Galaxy extends Entity {
   int get numOfSystems => this._numOfSystems;
   int get distanceToEarth => this._distanceToEarth;
   String get arcticle => 'a'; 
-  String get controlName => 'galaxy';  
+  String get controlName => 'galaxy';
 
   @override
   String get type => 'Galáxia'; 

@@ -4,34 +4,33 @@ import 'package:flutter_app/classes/planet.dart';
 import 'package:flutter_app/classes/satellite.dart';
 import 'package:flutter_app/classes/system.dart';
 import 'package:flutter_app/classes/star.dart';
-import 'package:flutter_app/control/string_tuple.dart';
 import 'package:flutter_app/widgets/custom_button.dart';
 import 'package:flutter_app/widgets/custom_dialog.dart'; 
 
 class Entity {
   String _name; 
-  int _id;
   String _arcticle; 
+  int _id;
 
   Entity(this._name, this._id);
 
-  String get arcticle => 'a'; 
+  // Getters 
+  int get id => this._id;
   String get name => this._name;
+  String get arcticle => 'a'; 
   String get type => 'Entidade';
   String get controlName => 'entity';  
-  int get id => this._id;
   
-  void set name(String name) {
-    this._name = name; 
-  }
+  // Setter 
+  void set name(String name) => this._name = name;  
   
+  // Função sobrescrita pelas classes filhas. 
   String toJson() {
     return null; 
   }
   
-  static Entity parseJson(dynamic json, StringTuple st) { 
-    print('Entrei! st: ${st.controlName}'); 
-    switch (st.controlName) {
+  static Entity parseJson(dynamic json, String entityType) { 
+    switch (entityType) {
       case 'galaxy':
         return Galaxy(json['name'], json['galaxy_id'], json['earth_distance'], 
           json['num_of_systems']); 
@@ -50,7 +49,7 @@ class Entity {
           json['is_dead'], json['startype']); 
       default: 
         print('Ops, algo deu errado!'); 
-        print(st.controlName);
+        print(entityType);
     }
   }
   
