@@ -1,5 +1,6 @@
 // Essa classe é utilizada por ListAll.  
 class StringTuple {
+  
   // Indica o tipo da entidade que será listado.
   // Ex: 'galaxy', 'star', 'planet', 'satellite'...
   String _controlName; 
@@ -10,14 +11,13 @@ class StringTuple {
 
   // Artigo que indica o gênero da palavra. 
   // Ex: 'a', 'o'
-  String _article;
+  String _arcticle;
 
-
-  StringTuple(this._controlName, this._viewName, this._article); 
+  StringTuple(this._controlName, this._viewName, this._arcticle); 
 
   String get controlName => this._controlName; 
   String get viewName => this._viewName;
-  String get article => this._article; 
+  String get arcticle => this._arcticle; 
 
   static StringTuple makeStringTupleFor(String entityType) {
     switch (entityType) {
@@ -32,7 +32,7 @@ class StringTuple {
       case 'star':
         return StringTuple('star', 'Estrela', 'a'); 
       case 'system':
-        return StringTuple('system', 'Sistema', 'o'); 
+        return StringTuple('planetarySystem', 'Sistema', 'o'); 
       default:
         return StringTuple('error', 'Erros', 'o'); 
     }

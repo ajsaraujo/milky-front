@@ -4,52 +4,91 @@ import 'package:flutter_app/classes/planet.dart';
 import 'package:flutter_app/classes/satellite.dart';
 import 'package:flutter_app/classes/system.dart';
 import 'package:flutter_app/classes/star.dart';
-import 'package:flutter_app/classes/colored_star.dart'; 
-import 'package:flutter_app/control/string_tuple.dart'; 
+import 'package:flutter_app/control/string_tuple.dart';
+import 'package:flutter_app/widgets/custom_button.dart';
+import 'package:flutter_app/widgets/custom_dialog.dart'; 
 
 class Entity {
   String _name; 
   int _id;
+  String _arcticle; 
 
   Entity(this._name, this._id);
 
+  String get arcticle => 'a'; 
   String get name => this._name;
-
+  String get type => 'Entidade';
+  String get controlName => 'entity';  
   int get id => this._id;
-
+  
+  void set name(String name) {
+    this._name = name; 
+  }
+  
+  String toJson() {
+    return null; 
+  }
+  
   static Entity parseJson(dynamic json, StringTuple st) { 
-    print('Entrei no switch! ${st.controlName}'); 
+    print('Entrei! st: ${st.controlName}'); 
     switch (st.controlName) {
       case 'galaxy':
-        return Galaxy(json['name'], json['id'], json['numOfSystems'], 
-                      json['distanceToEarth']);
+        return Galaxy(json['name'], json['galaxy_id'], json['earth_distance'], 
+          json['num_of_systems']); 
       case 'planet':
-        print('estou tentando fazer um planeta...'); 
-        return Planet(json['name'], json['id'], json['size'], json['mass'], 
-                      json['gravity'], json['composition']);
+        return Planet(json['name'], json['planet_id'], json['size'], json['weight'],
+          json['rotation_speed'], json['composition'], json['has_satellite']); 
       case 'satellite':
-        return Satellite(json['name'], json['id'], json['composition'], 
-                         json['mass']);
-      case 'system':
-        return System(json['name'], json['id'], json['numOfPlanets'], 
-                json['numOfStars'], json['age']);
+        return Satellite(json['name'], json['satellite_id'], json['composition'], 
+                         json['weight'], json['size']);
+      case 'planetarySystem':
+        return System(json['name'], json['system_id'], json['num_of_planets'], 
+                json['num_of_stars'], json['age']);
       case 'star':
-        return Star(json['id'], json['name'], json['age'], json['distanceToEarth'],
-                    json['gravity']); 
-      case 'colored_star':
-        return ColoredStar(json['id'], json['name'], json['age'], json['gravity'], 
-                           json['distanceToEarth'], json['size'], json['mass'],
-                           json['starType']);
+        return Star(json['star_id'], json['name'], json['age'], json['distance_to_earth'],
+          json['gravity'], json['size'], json['has_satellite'], json['is_blackhole'],
+          json['is_dead'], json['startype']); 
       default: 
-        return Entity('Something went wrong', 0); 
+        print('Ops, algo deu errado!'); 
+        print(st.controlName);
     }
   }
-  // Esse ListTile será utilizado para construir 
-  // a ListView nas telas de listagem. 
-  Widget makeListTile() {
+  
+  Widget makeListTile(BuildContext context) {
     return ListTile(
       title: Text(this._name), 
       subtitle: Text('#${this._id}'),
+      onTap: () => Navigator.of(context).pushNamed('/show_entity',
+        arguments: this,  
+      ),
+      onLongPress: () => CustomDialog.showDeleteDialog(
+        context: context, 
+        entity: this 
+      )
     );
+  }
+
+  Widget makeForm(bool isCreationForm, GlobalKey<ScaffoldState> scaffoldKey) {
+    final formKey = GlobalKey<FormState>(); 
+
+    final submitButton = CustomButton(
+      text: 'Confirmar', 
+      onPressed: () {
+        if (formKey.currentState.validate()) {
+          print('Salvando mudanças'); 
+          formKey.currentState.save(); 
+        }
+      },
+    );
+
+    return Form(
+      key: formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          submitButton
+        ], 
+    ));
   }
 }

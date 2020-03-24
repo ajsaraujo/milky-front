@@ -1,15 +1,13 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter_app/screens/dashboard.dart';
-import 'package:flutter_app/control/connection.dart'; 
 
-//  TO DO:
-//    -~ Ter certeza que o email não é nulo ou inválido
-//    -~ Ter certeza que a senha não é nula ou inválida
-//    -~ Mostrar ao usuário caso ele não consiga conexão com o servidor
-//    -~ Dar um cookie/token caso o usuário consiga fazer login
+import 'package:flutter_app/control/connection.dart'; 
+import 'package:flutter_app/control/validator.dart'; 
+import 'package:flutter_app/widgets/error_snackbar.dart'; 
+import 'package:flutter_app/widgets/custom_button.dart'; 
+import 'package:flutter_app/widgets/custom_form_field.dart';
+
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key, this.title}) : super(key: key);
@@ -19,99 +17,104 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-// Classe que armazena as informações de login.
-class _LoginData {
-  String email = '';
-  String password = '';
-}
-
 class _LoginScreenState extends State<LoginScreen> {
-  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   
-  // Chave do formulário.
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  _LoginData _data = _LoginData();
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>(); 
   
-  // Cabeçalho das requisições http.
-  static const Map<String, String> headers = {"Content-type": "application/json"};
+  final _emailController = new TextEditingController();
+  final _passwordController = new TextEditingController();
+  
+  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
-  // Função que comunica com o backend buscando autenticação do servidor.
   void _auth() async {
-    print('tentando conectar...'); 
-    String json = '{"email": "${_data.email}", "password": "${_data.password}"}';
-    var data = await http.post('${Connection.hostname()}/api/auth',headers: headers, body: json);
-    if(data.statusCode == 200){
-      Navigator.pushReplacement(context,
-       new MaterialPageRoute(
-           builder: (context) => new Dashboard()));
+    var isConnected = await Connection.isConnected(); 
+
+    if (!isConnected) {
+      final noConnectionSnackBar = ErrorSnackBar(
+        errorMessage: 'Conecte-se à internet.', 
+        scaffoldKey: this.scaffoldKey
+      ); 
+
+      noConnectionSnackBar.display(); 
+      return;  
     }
-    print('a resposta chegou');
-    //print('fim');
-  }
 
-  // Essa verificação ainda pode melhorar. Por exemplo,
-  // ela considera '@.' um e-mail válido.
-  String _validateEmail(String email) {
-    if (email.isEmpty)
-      return 'Digite seu e-mail'; 
-    if (!email.contains('@') || !email.contains('.'))
-      return 'Insira um e-mail válido'; 
-    return null;
-  }
+    final waitingSnackBar = ErrorSnackBar(
+      errorMessage: 'Autenticando...', 
+      duration: Duration(minutes: 1), 
+      backgroundColor: Colors.purple, 
+      scaffoldKey: this.scaffoldKey,
+    );
 
-  String _validatePassword(String password) {
-    // A validação pode verificar se o usuário utilizou
-    // algum caractere proibido. 
-    if (password.isEmpty)
-      return 'Insira sua senha';
-    return null; 
+    // Gambiarra! A SnackBar fica com duração fixa de 1 minuto 
+    // e é removida quando chega a resposta. O correto era ela ser
+    // mostrada com programação assíncrona. Ou não!
+    waitingSnackBar.display(); 
+    
+    print('Tentando conectar com o servidor...');
+    print('URL = ${Connection.hostname()}'); 
+    String json = '{"email": "${_emailController.text}", "password": "${_passwordController.text}"}';
+    var data = await http.post('${Connection.hostname()}/api/auth/', headers: Connection.headers, body: json);
+
+    scaffoldKey.currentState.removeCurrentSnackBar(); 
+
+    if(data.statusCode == 200) {
+      Navigator.of(context).pushReplacementNamed('/dashboard'); 
+    } else {
+      final authErrorSnackBar = ErrorSnackBar(
+        errorMessage: 'Email e/ou senha inválidos.', 
+        scaffoldKey: this.scaffoldKey
+      );
+      authErrorSnackBar.display(); 
+    }
+    
+    print('Ok! StatusCode: ${data.statusCode}');
   }
 
   @override
   Widget build(BuildContext context) {
-    final emailField = TextFormField(
+    final emailField = CustomFormField(
       obscureText: false,
-      style: style,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        hintText: "Email",
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-      onSaved: (String value) => {this._data.email = value},
-      validator: _validateEmail
+      hintText: 'Email',
+      validator: Validator.validateEmail,
+      controller: _emailController, 
+      inputType: TextInputType.emailAddress,
+    ); 
+    
+    final passwordField = CustomFormField(
+      obscureText: true,
+      hintText: 'Senha', 
+      validator: (String password) => password.isEmpty ? 'Digite sua senha.' : null,
+      controller: _passwordController,
+    ); 
+    
+    final loginButton = CustomButton(
+      text: 'Entrar',
+      onPressed: () {
+        print('Ola, sou seu novo botao!\n');
+        _formKey.currentState.save(); 
+        print('Email: ${_emailController.text}');
+        print('Password: ${_passwordController.text}');
+        if (_formKey.currentState.validate())
+          _auth(); 
+      },
+    ); 
+
+    final signUpRichText = RichText(
+      text: TextSpan(
+        text: 'Não tenho uma conta',
+        style: TextStyle(fontFamily: 'Montserrat', color: Colors.purple, fontSize: 20.0),
+        recognizer: TapGestureRecognizer() 
+          ..onTap = () { 
+            print('Gesto reconhecido, vamos lá!');
+            Navigator.of(context).pushNamed('/sign_up'); 
+          }
+      )
     );
     
-    final passwordField = TextFormField(
-      obscureText: true,
-      style: style,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        hintText: "Password",
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-      //Função que será chamada ao salvar o formulário.
-      onSaved: (String value) => {this._data.password = value},
-      validator: _validatePassword,
-    );
-    final loginButton = Material(
-        elevation: 5.0,
-        borderRadius: BorderRadius.circular(30.0),
-        color: Theme.of(context).primaryColor,
-        child: MaterialButton(
-            minWidth: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            onPressed: () {
-              _formKey.currentState.save();
-              if (_formKey.currentState.validate())
-                _auth();
-              },
-            child: Text("Login",
-                textAlign: TextAlign.center,
-                style: style.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ))));
     return Scaffold(
+        key: scaffoldKey, 
         backgroundColor: Colors.white,
         body: Center(
             child: SingleChildScrollView(
@@ -135,7 +138,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               passwordField,
                               SizedBox(height: 35.0),
                               loginButton,
-                              SizedBox(height: 15.0),
+                              SizedBox(height: 25.0),
+                              signUpRichText
                             ],
                           ),
                         ))))));

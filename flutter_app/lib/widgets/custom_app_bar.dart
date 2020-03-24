@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
-class CustomAppBar {
-  static AppBar makeAppBar(String title, BuildContext context) {
+class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
+  CustomAppBar({this.title}); 
+  
+  final String title; 
+  
+  @override 
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+   
+  @override 
+  Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Theme.of(context).primaryColor,
       title: Text(title, 
