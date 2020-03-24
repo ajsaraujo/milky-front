@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/custom_form_field.dart'; 
 import 'package:flutter_app/widgets/custom_button.dart';
 import 'package:flutter_app/control/validator.dart';
+import 'package:flutter_app/control/connection.dart'; 
 
 class Star extends Entity {
   int _age; 
@@ -25,38 +26,49 @@ class Star extends Entity {
     : super(name, id);  
 
   @override 
-  Widget makeForm(bool isCreationForm) {
+  String toJson() {
+    return '{"name": "$name", "age": $_age, "earthDistance": $_distanceToEarth, "gravity": $_gravity, "size": $_size, "hasSatellite": $_hasSatellite, "isBlackhole": $_isBlackhole, "isDead": $_isDead, "startype": "$_starType"}';
+  }
+
+  @override 
+  String get controlName => 'star';  
+  @override 
+  String get arcticle => 'a'; 
+  @override 
+  String get type => 'Estrela'; 
+  @override 
+  Widget makeForm(bool isCreationForm, GlobalKey<ScaffoldState> scaffoldKey) {
     final formKey = GlobalKey<FormState>(); 
     
     final nameField = CustomFormField(
-      initialValue: isCreationForm ? '' : this.name,
+      initialValue: isCreationForm ? '' : this.name ?? '',
       labelText: 'Nome',
       validator: Validator.validateEntityName,
-      onSaved: (String val) => print('Nome: ${val}'),
+      onSaved: (String val) => name = val,
     );
 
     final gravityField = CustomFormField(
-      initialValue: isCreationForm ? '' : _gravity.toString(),
+      initialValue: isCreationForm ? '' : _gravity.toString() ?? '',
       labelText: 'Gravidade',
       inputType: TextInputType.number,
       validator: Validator.validateNumber,
-      onSaved: (String val) => print('Gravidade: $val'),
+      onSaved: (String val) => _gravity = int.parse(val),
     );
 
     final distanceToEarthField = CustomFormField(
-      initialValue: isCreationForm ? '' : this._distanceToEarth.toString(),
+      initialValue: isCreationForm ? '' : this._distanceToEarth.toString() ?? '',
       labelText: 'Distância da terra',
       inputType: TextInputType.number,
       validator: Validator.validateNumber,
-      onSaved: (String val) => print('Distancia: ${val}')
+      onSaved: (String val) => _distanceToEarth = int.parse(val),
     ); 
 
     final ageField = CustomFormField(
-      initialValue: isCreationForm ? '' : this._age.toString(),
+      initialValue: isCreationForm ? '' : this._age.toString() ?? '',
       labelText: 'Idade',
       inputType: TextInputType.number,
       validator: Validator.validateNumber,
-      onSaved: (String val) => print('Idade: ${val}'),
+      onSaved: (String val) => _age = int.parse(val),
     );
 
     final submitButton = CustomButton(
@@ -64,7 +76,8 @@ class Star extends Entity {
       onPressed: () {
         if (formKey.currentState.validate()) {
           print('Salvando mudanças'); 
-          formKey.currentState.save(); 
+          formKey.currentState.save();
+          Connection.updateEntity(this, 'star', scaffoldKey); 
         }
       },
     );

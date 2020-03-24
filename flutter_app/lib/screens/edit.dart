@@ -32,7 +32,7 @@ class _EditScreenState extends State<EditScreen> {
                     color: Colors.white,
                     child: Padding(
                         padding: const EdgeInsets.all(36.0),
-                        child: entity.makeForm(false),
-                        )))));
+                        child: entity.makeForm(false, this.scaffoldKey),
+        )))));
   }
 }

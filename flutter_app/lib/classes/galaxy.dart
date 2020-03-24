@@ -3,47 +3,54 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/custom_button.dart'; 
 import 'package:flutter_app/widgets/custom_form_field.dart'; 
 import 'package:flutter_app/control/validator.dart';
-import 'package:flutter_app/widgets/custom_scaffold.dart'; 
+import 'package:flutter_app/control/connection.dart'; 
 
 class Galaxy extends Entity {
   int _numOfSystems; 
   int _distanceToEarth; 
 
   static GlobalKey<FormState> formKey;  
-  static GlobalKey<ScaffoldState> scaffoldKey; 
 
   Galaxy(String name, int id, this._numOfSystems, this._distanceToEarth)
     : super(name, id);
 
   int get numOfSystems => this._numOfSystems;
   int get distanceToEarth => this._distanceToEarth;
+  String get arcticle => 'a'; 
+  String get controlName => 'galaxy';  
+
+  @override
   String get type => 'Galáxia'; 
 
+  String toJson() {
+    return '{"name": "${name}", "numOfSystems": ${_numOfSystems}, "earthDistance": ${distanceToEarth}}';
+  }
+  
   @override 
-  Widget makeForm(bool isCreationForm) {
+  Widget makeForm(bool isCreationForm, GlobalKey<ScaffoldState> scaffoldKey) {
     formKey = GlobalKey<FormState>(); 
-    
+
     final nameField = CustomFormField(
-      initialValue: isCreationForm ? '' : this.name,
+      initialValue: isCreationForm ? '' : this.name ?? '',
       labelText: 'Nome',
       validator: Validator.validateEntityName,
-      onSaved: (String val) => print('Nome: ${val}'),
+      onSaved: (String val) => super.name = val,
     );
 
     final numOfSystemsField = CustomFormField(
-      initialValue: isCreationForm ? '' : this._numOfSystems.toString(),
+      initialValue: isCreationForm ? '' : this._numOfSystems.toString() ?? '',
       labelText: 'Número de sistemas',
       validator: Validator.validateNumber, 
       inputType: TextInputType.number,
-      onSaved: (String val) => print('Numero de sistemas: ${val}')
+      onSaved: (String val) => _numOfSystems = int.parse(val)
     ); 
 
     final distanceToEarthField = CustomFormField(
-      initialValue: !isCreationForm ? this._distanceToEarth.toString() : '',
+      initialValue: !isCreationForm ? this._distanceToEarth.toString() ?? '' : '',
       labelText: 'Distância da terra',
       inputType: TextInputType.number,
       validator: Validator.validateNumber,
-      onSaved: (String val) => print('Distancia: ${val}')
+      onSaved: (String val) => _distanceToEarth = int.parse(val)
     ); 
 
     final submitButton = CustomButton(
@@ -53,8 +60,7 @@ class Galaxy extends Entity {
         if (formKey.currentState.validate()) {
           formKey.currentState.save(); 
           print('Editar entidade'); 
-          // Fazer conexão 
-          // Mostrar dialog caso tenha dado tudo certo
+          Connection.updateEntity(this, 'galaxy', scaffoldKey); 
         }
       }
     );

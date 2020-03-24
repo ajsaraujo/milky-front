@@ -6,16 +6,28 @@ import 'package:flutter_app/classes/system.dart';
 import 'package:flutter_app/classes/star.dart';
 import 'package:flutter_app/control/string_tuple.dart';
 import 'package:flutter_app/widgets/custom_button.dart';
+import 'package:flutter_app/widgets/custom_dialog.dart'; 
 
 class Entity {
   String _name; 
   int _id;
+  String _arcticle; 
 
   Entity(this._name, this._id);
 
+  String get arcticle => 'a'; 
   String get name => this._name;
-  String get type => 'Entidade'; 
+  String get type => 'Entidade';
+  String get controlName => 'entity';  
   int get id => this._id;
+  
+  void set name(String name) {
+    this._name = name; 
+  }
+  
+  String toJson() {
+    return null; 
+  }
   
   static Entity parseJson(dynamic json, StringTuple st) { 
     print('Entrei! st: ${st.controlName}'); 
@@ -49,10 +61,14 @@ class Entity {
       onTap: () => Navigator.of(context).pushNamed('/show_entity',
         arguments: this,  
       ),
+      onLongPress: () => CustomDialog.showDeleteDialog(
+        context: context, 
+        entity: this 
+      )
     );
   }
 
-  Widget makeForm(bool isCreationForm) {
+  Widget makeForm(bool isCreationForm, GlobalKey<ScaffoldState> scaffoldKey) {
     final formKey = GlobalKey<FormState>(); 
 
     final submitButton = CustomButton(

@@ -51,14 +51,18 @@ class _NewEntityState extends State<NewEntity> {
       // e é removida quando chega a resposta. O correto era ela ser
       // mostrada com programação assíncrona. Ou não!
       waitingSnackBar.display(); 
+
       final jsonString = json.encode(_map);
       print('Estou enviando a seguinte string:'); 
       print(jsonString); 
+
       var data = await http.post(
         '${Connection.hostname()}/api/${widget.myStringTuple.controlName}',
         body: jsonString, 
         headers: Connection.headers); 
 
+      _scaffoldKey.currentState.removeCurrentSnackBar();
+      
       print('Ok! Status Code: ${data.statusCode}'); 
       if(data.statusCode == 201) {
         print('Tudo certo, entidade criada!');
