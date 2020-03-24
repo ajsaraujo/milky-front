@@ -22,6 +22,12 @@ class Galaxy extends Entity {
   @override
   String get type => 'Galáxia'; 
 
+  @override 
+  Galaxy fromJson(dynamic json) {
+    return Galaxy(json['name'], json['galaxy_id'], json['earth_distance'], 
+          json['num_of_systems']);
+  }
+  
   String toJson() {
     return '{"name": "${name}", "numOfSystems": ${_numOfSystems}, "earthDistance": ${distanceToEarth}}';
   }

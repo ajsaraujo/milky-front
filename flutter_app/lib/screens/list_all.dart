@@ -25,8 +25,8 @@ class _ListAllState extends State<ListAll> {
     var jsonData = json.decode(data.body);
     List<Entity> myList = []; 
     print('StatusCode: ${data.statusCode}'); 
-    for (var jsonEntity in jsonData) {
-      myList.add(Entity.parseJson(jsonEntity, widget.entity.controlName));
+    for (var json in jsonData) {
+      myList.add(widget.entity.fromJson(json));
     }
     print('Peguei da Web: ${myList}\n\n'); 
     return myList; 

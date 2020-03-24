@@ -16,17 +16,20 @@ class Planet extends Entity {
     this._hasSatellite)
     : super(name, id); 
 
-  @override
   String get type => 'Planeta'; 
-  @override
   String get arcticle => 'o'; 
   String get controlName => 'planet';  
 
-  @override 
+  Planet fromJson(dynamic json) {
+    return Planet(json['name'], json['planet_id'], json['size'], json['weight'],
+          json['rotation_speed'], json['composition'], json['has_satellite']
+    );
+  }
+
   String toJson() {
     return '{"size": ${_size}, "name": "${name}", "weight": ${_mass}, "rotationSpeed": ${_rotationSpeed}, "composition": "${_composition}", "hasSatellite": ${_hasSatellite}}';
   }
-  @override 
+
   Widget makeForm(bool isCreationForm, GlobalKey<ScaffoldState> scaffoldKey) {
     final formKey = GlobalKey<FormState>(); 
     

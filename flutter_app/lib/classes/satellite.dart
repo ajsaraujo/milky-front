@@ -13,17 +13,19 @@ class Satellite extends Entity {
   Satellite(String name, int id, this._composition, this._mass, this._size)
     : super(name, id); 
 
+  String get type => 'Satélite'; 
+  String get arcticle => 'o';
+  String get controlName => 'satellite';  
+
+  Satellite fromJson(dynamic json) {
+    return Satellite(json['name'], json['satellite_id'], json['composition'], 
+      json['weight'], json['size']);
+  }
+
   String toJson() {
     return '{"name": "$name", "composition": "$_composition", "weight": $_mass, "size": $_size }';
   }
 
-  @override 
-  String get type => 'Satélite'; 
-  @override 
-  String get arcticle => 'o';
-  String get controlName => 'satellite';  
-
-  @override 
   Widget makeForm(bool isCreationForm, GlobalKey<ScaffoldState> scaffoldKey) {
     final formKey = GlobalKey<FormState>(); 
     

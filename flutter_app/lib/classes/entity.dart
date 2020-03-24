@@ -24,33 +24,13 @@ class Entity {
   // Setter 
   void set name(String name) => this._name = name;  
   
-  // Função sobrescrita pelas classes filhas. 
+  // JSON
   String toJson() {
     return null; 
   }
   
-  static Entity parseJson(dynamic json, String entityType) { 
-    switch (entityType) {
-      case 'galaxy':
-        return Galaxy(json['name'], json['galaxy_id'], json['earth_distance'], 
-          json['num_of_systems']); 
-      case 'planet':
-        return Planet(json['name'], json['planet_id'], json['size'], json['weight'],
-          json['rotation_speed'], json['composition'], json['has_satellite']); 
-      case 'satellite':
-        return Satellite(json['name'], json['satellite_id'], json['composition'], 
-                         json['weight'], json['size']);
-      case 'planetarySystem':
-        return System(json['name'], json['system_id'], json['num_of_planets'], 
-                json['num_of_stars'], json['age']);
-      case 'star':
-        return Star(json['star_id'], json['name'], json['age'], json['distance_to_earth'],
-          json['gravity'], json['size'], json['has_satellite'], json['is_blackhole'],
-          json['is_dead'], json['startype']); 
-      default: 
-        print('Ops, algo deu errado!'); 
-        print(entityType);
-    }
+  Entity fromJson(dynamic json) {
+    return Entity(json['name'], -1); 
   }
   
   Widget makeListTile(BuildContext context) {
