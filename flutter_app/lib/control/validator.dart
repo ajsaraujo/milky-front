@@ -21,7 +21,7 @@ class Validator {
   }
 
   static String validateNickname(String nickname) {
-    final nicknameRegExp = RegExp(r'^[a-zA-Z0-9_ ]{3,50}$');
+    final nicknameRegExp = RegExp(r'^[a-zA-Z0-9_ áéíóúãẽĩõũâêîôû]{3,50}$');
     if (nickname.isEmpty)
       return 'Digite um nome de usuário.'; 
     if (nickname.length < 3)
@@ -34,7 +34,7 @@ class Validator {
   }
 
   static String validateEntityName(String name) {
-    final nameRegExp = RegExp(r'^[a-zA-Z0-9_ ]{3,50}$');
+    final nameRegExp = RegExp(r'^[a-zA-Z0-9_ áéíóúãẽĩõũâêîôû]{3,50}$');
     if (name.isEmpty)
       return 'Digite um nome.'; 
     if (name.length < 3)
@@ -47,7 +47,7 @@ class Validator {
   }
 
   static String validateLongString(String name) {
-    final regEx = RegExp(r'^[a-zA-Z0-9_ \%\:]*$'); 
+    final regEx = RegExp(r'^[a-zA-Z0-9_ \%\:áéíóúãẽĩõũâêîôû]*$'); 
     if (name.length > 512)
       return 'Composição muito longa.'; 
     if (!regEx.hasMatch(name))
