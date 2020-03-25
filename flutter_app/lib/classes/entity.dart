@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart'; 
-import 'package:flutter_app/classes/galaxy.dart'; 
-import 'package:flutter_app/classes/planet.dart'; 
-import 'package:flutter_app/classes/satellite.dart';
-import 'package:flutter_app/classes/system.dart';
-import 'package:flutter_app/classes/star.dart';
 import 'package:flutter_app/widgets/custom_button.dart';
 import 'package:flutter_app/widgets/custom_dialog.dart'; 
 
