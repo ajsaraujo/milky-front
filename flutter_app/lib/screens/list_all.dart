@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_app/widgets/custom_app_bar.dart'; 
+import 'package:flutter_app/widgets/custom_list_tile.dart';
 import 'package:flutter_app/classes/entity.dart';
 import 'package:flutter_app/control/connection.dart';   
 import 'dart:convert';
@@ -48,12 +49,13 @@ class _ListAllState extends State<ListAll> {
         child: FutureBuilder(
           future: _getData(), 
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            // Em Dart, podemos fazer comparações com null legalmente? 
-            if (snapshot.data == null)
-              return Container(child: Center(child: CircularProgressIndicator(),),);
+            if (!snapshot.hasData)
+              return Center(
+                child: CircularProgressIndicator(backgroundColor: Colors.purple,)
+              );
             return ListView.builder(
               itemCount: snapshot.data.length, 
-              itemBuilder: (BuildContext context, int index) => snapshot.data[index].makeListTile(context)
+              itemBuilder: (BuildContext context, int index) => CustomListTile(entity: snapshot.data[index])
             );
           }
         )
