@@ -13,6 +13,8 @@ class System extends Entity {
   System(String name, int id, this._numOfPlanets, this._numOfStars, this._age)
     : super(name, id); 
 
+  System.emptySystem() : super.emptyEntity();
+
   String get controlName => 'planetarySystem';  
   String get arcticle => 'o'; 
   String get type => 'Sistema Planetário'; 

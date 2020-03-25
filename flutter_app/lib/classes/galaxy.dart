@@ -13,16 +13,15 @@ class Galaxy extends Entity {
 
   Galaxy(String name, int id, this._numOfSystems, this._distanceToEarth)
     : super(name, id);
+  
+  Galaxy.emptyGalaxy() : super.emptyEntity();
 
   int get numOfSystems => this._numOfSystems;
   int get distanceToEarth => this._distanceToEarth;
   String get arcticle => 'a'; 
   String get controlName => 'galaxy';
-
-  @override
   String get type => 'Galáxia'; 
 
-  @override 
   Galaxy fromJson(dynamic json) {
     return Galaxy(json['name'], json['galaxy_id'], json['earth_distance'], 
           json['num_of_systems']);
@@ -32,7 +31,6 @@ class Galaxy extends Entity {
     return '{"name": "${name}", "numOfSystems": ${_numOfSystems}, "earthDistance": ${distanceToEarth}}';
   }
   
-  @override 
   Widget makeForm(bool isCreationForm, GlobalKey<ScaffoldState> scaffoldKey) {
     formKey = GlobalKey<FormState>(); 
 

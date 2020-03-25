@@ -13,13 +13,18 @@ class Satellite extends Entity {
   Satellite(String name, int id, this._composition, this._mass, this._size)
     : super(name, id); 
 
+  Satellite.emptySatellite() : super.emptyEntity();
+
   String get type => 'Satélite'; 
   String get arcticle => 'o';
   String get controlName => 'satellite';  
 
   Satellite fromJson(dynamic json) {
-    return Satellite(json['name'], json['satellite_id'], json['composition'], 
-      json['weight'], json['size']);
+    return Satellite(json['name'], 
+                     json['satellite_id'], 
+                     json['composition'], 
+                     json['weight'],
+                     json['size']);
   }
 
   String toJson() {

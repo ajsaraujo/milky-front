@@ -4,10 +4,14 @@ import 'package:flutter_app/widgets/custom_dialog.dart';
 
 class Entity {
   String _name; 
-  String _arcticle; 
   int _id;
 
   Entity(this._name, this._id);
+  
+  Entity.emptyEntity() {
+    _name = null; 
+    _id = null; 
+  }
 
   // Getters 
   int get id => this._id;

@@ -20,23 +20,23 @@ class Dashboard extends StatelessWidget {
             children: <Widget>[
               DashboardCard(
                 icon: Icons.person, 
-                entity: Planet(null, null, null, null, null, null, null)
+                entity: Planet.emptyPlanet(),
               ),
               DashboardCard(
                 icon: Icons.person, 
-                entity: System(null, null, null, null, null)
+                entity: System.emptySystem(), 
               ),
               DashboardCard(
                 icon: Icons.person, 
-                entity: Galaxy(null, null, null, null)
+                entity: Galaxy.emptyGalaxy(), 
               ),
               DashboardCard(
                 icon: Icons.person, 
-                entity: Satellite(null, null, null, null, null)
+                entity: Satellite.emptySatellite(), 
               ),
               DashboardCard(
                 icon: Icons.person,
-                entity: Star(null, null, null, null, null, null, null, null, null, null)
+                entity: Star.emptyStar(), 
               ),
             ],
           )),

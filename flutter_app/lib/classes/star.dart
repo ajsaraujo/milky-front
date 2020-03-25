@@ -19,6 +19,8 @@ class Star extends Entity {
     this._size, this._hasSatellite, this._isBlackhole, this._isDead, this._starType)
     : super(name, id);  
 
+  Star.emptyStar() : super.emptyEntity();
+
   String get controlName => 'star';  
   String get arcticle => 'a'; 
   String get type => 'Estrela'; 

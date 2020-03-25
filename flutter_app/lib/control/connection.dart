@@ -2,7 +2,6 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter_app/classes/entity.dart'; 
 import 'package:flutter_app/widgets/error_snackbar.dart'; 
 import 'package:flutter/material.dart'; 
-import 'dart:convert'; 
 import 'package:http/http.dart' as http;
 
 class Connection {
@@ -37,11 +36,9 @@ class Connection {
   static void deleteEntity(Entity e, GlobalKey<ScaffoldState> scaffoldKey) async {
     final data = await http.delete('${Connection.hostname()}/api/${e.controlName}/${e.id}');
     if (data.statusCode == 200) {
-      print('nice'); 
+      print('======================== ENTIDADE DELETADA ======================='); 
     } else {
-      print('batendo na url ${Connection.hostname()}/api/${e.controlName}/${e.id}');
-      print('${data.statusCode}');
-      print('o-oh'); 
+      print('Erro tentando deletar entidade. HTTP Status Code: ${data.statusCode}');
     }
   }
 

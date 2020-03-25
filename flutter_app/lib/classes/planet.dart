@@ -14,15 +14,22 @@ class Planet extends Entity {
 
   Planet (String name, int id, this._size, this._mass, this._rotationSpeed, this._composition,
     this._hasSatellite)
-    : super(name, id); 
+    : super(name, id);
+  
+  Planet.emptyPlanet() : super.emptyEntity();
 
   String get type => 'Planeta'; 
   String get arcticle => 'o'; 
   String get controlName => 'planet';  
 
   Planet fromJson(dynamic json) {
-    return Planet(json['name'], json['planet_id'], json['size'], json['weight'],
-          json['rotation_speed'], json['composition'], json['has_satellite']
+    return Planet(json['name'], 
+                  json['planet_id'], 
+                  json['size'],
+                  json['weight'],
+                  json['rotation_speed'],
+                  json['composition'],
+                  json['has_satellite']
     );
   }
 
