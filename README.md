@@ -9,4 +9,4 @@ dados PostgreSQL.
 
 + [Instale o Flutter e o Android SDK](https://flutter.dev/docs/get-started/install/linux)
 + Acione um emulador ou conecte um smartphone Android via USB com o modo desenvolvedor e depuração USB ativados
-+ Na raiz da aplicação rode o comando ```flutter run``` para executar no modo de depuração ou ```flutter run --release``` para executar a versão de release
++ Na pasta flutter_app execute o comando ```flutter run``` para executar no modo de depuração ou ```flutter run --release``` para executar a versão de release
