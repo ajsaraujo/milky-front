@@ -15,28 +15,33 @@ class Star extends Entity {
   bool _isDead; 
   String _starType; 
 
-  // Na regra de negócio, a classe Star não possui atributo _name.
-  // Entretanto, sua classe filha, ColoredStar, possui tal atributo,
-  // por isso este foi mantido no super-construtor. 
-
-  // Para criar um objeto Star sem nome, basta passar null para 
-  // o construtor.  
   Star(int id, String name, this._age, this._distanceToEarth, this._gravity, 
     this._size, this._hasSatellite, this._isBlackhole, this._isDead, this._starType)
     : super(name, id);  
 
-  @override 
+  Star.emptyStar() : super.emptyEntity();
+
+  String get controlName => 'star';  
+  String get arcticle => 'a'; 
+  String get type => 'Estrela'; 
+
+  Star fromJson(dynamic json) {
+    return Star(json['star_id'], 
+                json['name'], 
+                json['age'], 
+                json['distance_to_earth'],
+                json['gravity'], 
+                json['size'], 
+                json['has_satellite'], 
+                json['is_blackhole'],
+                json['is_dead'], 
+                json['startype']); 
+  }
+  
   String toJson() {
     return '{"name": "$name", "age": $_age, "earthDistance": $_distanceToEarth, "gravity": $_gravity, "size": $_size, "hasSatellite": $_hasSatellite, "isBlackhole": $_isBlackhole, "isDead": $_isDead, "startype": "$_starType"}';
   }
 
-  @override 
-  String get controlName => 'star';  
-  @override 
-  String get arcticle => 'a'; 
-  @override 
-  String get type => 'Estrela'; 
-  @override 
   Widget makeForm(bool isCreationForm, GlobalKey<ScaffoldState> scaffoldKey) {
     final formKey = GlobalKey<FormState>(); 
     

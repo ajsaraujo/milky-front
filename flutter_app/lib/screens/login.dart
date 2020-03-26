@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // Gambiarra! A SnackBar fica com duração fixa de 1 minuto 
     // e é removida quando chega a resposta. O correto era ela ser
-    // mostrada com programação assíncrona. Ou não!
+    // mostrada com programação assíncrona... Ou não?
     waitingSnackBar.display(); 
     
     print('Tentando conectar com o servidor...');

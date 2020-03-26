@@ -13,18 +13,24 @@ class System extends Entity {
   System(String name, int id, this._numOfPlanets, this._numOfStars, this._age)
     : super(name, id); 
 
-  @override
+  System.emptySystem() : super.emptyEntity();
+
+  String get controlName => 'planetarySystem';  
+  String get arcticle => 'o'; 
+  String get type => 'Sistema Planetário'; 
+
+  System fromJson(dynamic json) {
+    return System(json['name'], 
+                  json['system_id'], 
+                  json['num_of_planets'], 
+                  json['num_of_stars'], 
+                  json['age']
+    );
+  }
+
   String toJson() {
     return '{"name": "$name", "numOfPlanets": $_numOfPlanets, "numOfStars": $_numOfStars, "age": $_age}';
   }
-  
-  @override 
-  String get controlName => 'planetarySystem';  
-  @override 
-  String get arcticle => 'o'; 
-  @override 
-  String get type => 'Sistema Planetário'; 
-  @override 
   Widget makeForm(bool isCreationForm, GlobalKey<ScaffoldState> scaffoldKey) {
     final formKey = GlobalKey<FormState>(); 
     

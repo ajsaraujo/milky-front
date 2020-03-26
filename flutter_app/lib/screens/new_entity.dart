@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart'; 
-import 'package:flutter_app/control/string_tuple.dart';
+import 'package:flutter_app/classes/entity.dart';
 import 'package:flutter_app/widgets/custom_app_bar.dart'; 
 import 'package:flutter_app/control/validator.dart';
 import 'package:flutter_app/control/connection.dart'; 
@@ -10,9 +10,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class NewEntity extends StatefulWidget {
-  StringTuple myStringTuple;
+  Entity entity;
 
-  NewEntity(this.myStringTuple); 
+  NewEntity(this.entity); 
 
   @override
   _NewEntityState createState() => _NewEntityState();
@@ -41,7 +41,7 @@ class _NewEntityState extends State<NewEntity> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       final waitingSnackBar = ErrorSnackBar(
-        errorMessage: 'Criando ${widget.myStringTuple.viewName}...', 
+        errorMessage: 'Criando ${widget.entity.type}...', 
         duration: Duration(minutes: 1), 
         backgroundColor: Colors.purple, 
         scaffoldKey: _scaffoldKey,
@@ -57,7 +57,7 @@ class _NewEntityState extends State<NewEntity> {
       print(jsonString); 
 
       var data = await http.post(
-        '${Connection.hostname()}/api/${widget.myStringTuple.controlName}',
+        '${Connection.hostname()}/api/${widget.entity.controlName}',
         body: jsonString, 
         headers: Connection.headers); 
 
@@ -158,7 +158,7 @@ class _NewEntityState extends State<NewEntity> {
     myFields.add(nameField); 
     myFields.add(SizedBox(height: 40.0)); 
 
-    switch (widget.myStringTuple.controlName) {
+    switch (widget.entity.controlName) {
       case 'galaxy': 
         myFields.add(numOfSysField); 
         myFields.add(SizedBox(height: 40.0)); 
@@ -211,7 +211,7 @@ class _NewEntityState extends State<NewEntity> {
     return Scaffold(
       key: _scaffoldKey, 
       appBar: CustomAppBar(
-        title: 'Criar nov${widget.myStringTuple.arcticle} ${widget.myStringTuple.viewName}'),
+        title: 'Criar nov${widget.entity.arcticle} ${widget.entity.type}'),
       body: Center(
         child: SingleChildScrollView(
           child: Container(
