@@ -1,12 +1,9 @@
-## Sobre 
+## milky-front
 
-Projeto feito para aprender mais sobre desenvolvimento de apps com Flutter e conexão com APIs. A aplicação permite criação de 
-conta, autenticação e as operações básicas de CRUD: criar, visualizar, atualizar e deletar. É possível cadastrar vários corpos celestes com
-diferentes atributos, como Planetas, Galáxias, Estrelas, etc. A aplicação conversa com um back-end feito com Node.js e banco de
-dados PostgreSQL. 
+I made this project to learn more about mobile development with Flutter. The app allows the user to create an account, authenticate, and perform CRUD operations: create, read, update, and delete. It is possible to register several celestial bodies with different attributes, such as Planets, Galaxies, and Stars. The app connects with a backend made in Node.js with a PostgreSQL database.
 
-### Instalação e uso 
+### Installation and usage
 
-+ [Instale o Flutter e o Android SDK](https://flutter.dev/docs/get-started/install/linux)
-+ Acione um emulador ou conecte um smartphone Android via USB com o modo desenvolvedor e depuração USB ativados
-+ Na pasta flutter_app execute o comando ```flutter run``` para executar no modo de depuração ou ```flutter run --release``` para executar a versão de release
+1. [Install Flutter and the Android SDK](https://flutter.dev/docs/get-started/install/linux)
+2. To run the app, run a device emulator or connect an Android smartphone via USB with the developer mode and USB debugging mode turned on
+3. On the folder `flutter_app/` run the command `flutter run` to execute in debug mode or `flutter run --release` to execute the release version.
